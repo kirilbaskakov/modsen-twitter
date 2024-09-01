@@ -1,5 +1,6 @@
-import daysInMonth from '@/utils/daysInMonth';
 import { ChangeEvent, useState } from 'react';
+
+import daysInMonth from '@/utils/daysInMonth';
 
 const monthes = [
   'January',
@@ -70,7 +71,9 @@ const DateInput = () => {
             <option key={month}>{month}</option>
           ))}
         </select>
-        <label htmlFor="month-select">Month</label>
+        <label className="label" htmlFor="month-select">
+          Month
+        </label>
       </div>
       <div className="relative basis-1/4">
         <select
@@ -83,7 +86,9 @@ const DateInput = () => {
             <option key={day}>{day}</option>
           ))}
         </select>
-        <label htmlFor="day-select">Month</label>
+        <label className="label" htmlFor="day-select">
+          Month
+        </label>
       </div>
       <div className="relative basis-1/4">
         <select
@@ -96,7 +101,9 @@ const DateInput = () => {
             <option key={year}>{year}</option>
           ))}
         </select>
-        <label htmlFor="year-select">Month</label>
+        <label className="label" htmlFor="year-select">
+          Month
+        </label>
       </div>
     </div>
   );

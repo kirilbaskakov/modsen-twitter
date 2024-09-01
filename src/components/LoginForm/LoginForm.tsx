@@ -1,9 +1,12 @@
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import TwitterLogo from '@/assets/twitter-logo.svg';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase';
-import { useState } from 'react';
+
+import Alert from '../Alert/Alert';
+import LabeledInput from '../LabeledInput/LabeledInput';
 
 const LoginForm = () => {
   const [error, setError] = useState(null);
@@ -17,39 +20,33 @@ const LoginForm = () => {
       .catch(err => setError(err.code));
   };
 
+  const onAlertClose = () => setError(null);
+
   return (
     <div className="mx-auto w-1/4 mt-12 min-w-96">
       <img src={TwitterLogo} alt="Twitter logo" />
       <h1 className="text-4xl font-extrabold my-8">Log in to Twitter</h1>
-      <form onSubmit={onSubmit}>
-        <div className="relative">
-          <input
-            id="login-input"
-            className="peer"
-            placeholder=""
-            type="text"
-            name="login"
-          />
-          <label htmlFor="login-input">Phone number, email address</label>
-        </div>
-        <div className="relative mt-4">
-          <input
-            id="password-input"
-            className="peer"
-            placeholder=""
-            type="password"
-            name="password"
-          />
-          <label htmlFor="password-input">Password</label>
-        </div>
-        <p className="text-red-500 text-xs font-bold h-3 mt-2">{error}</p>
-        <button className="mt-4 py-3.5 " type="submit">
+      <form onSubmit={onSubmit} className="flex flex-col gap-2">
+        <LabeledInput
+          id="login-input"
+          placeholder="Phone number, email address"
+          type="text"
+          name="login"
+        />
+        <LabeledInput
+          id="password-input"
+          placeholder="Password"
+          type="password"
+          name="password"
+        />
+        <button className="mt-2 py-3.5 " type="submit">
           Log In
         </button>
       </form>
       <Link to="/" className="block text-end mt-7">
         Sign up to Twitter
       </Link>
+      {error && <Alert text={error} type="error" onClose={onAlertClose} />}
     </div>
   );
 };

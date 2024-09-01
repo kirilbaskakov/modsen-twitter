@@ -42,7 +42,7 @@ input.error {
      @apply outline outline-2 outline-red-500
 }
 
-label {
+.label {
     @apply top-1/2 text-gray-400 text-lg font-normal peer-[:not(:placeholder-shown)]:text-xs peer-focus:top-3 peer-focus:text-xs peer-[:not(:placeholder-shown)]:top-3  absolute px-1 left-2 -translate-y-1/2 transition-[top]
 }
 
