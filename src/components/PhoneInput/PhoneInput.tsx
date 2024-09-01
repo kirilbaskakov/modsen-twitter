@@ -1,5 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
+import LabeledInput from '../LabeledInput/LabeledInput';
+
 const PhoneInput = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -22,17 +24,13 @@ const PhoneInput = () => {
   };
 
   return (
-    <div className="relative">
-      <input
-        id="phone-input"
-        placeholder=""
-        className="peer"
-        type="text"
-        value={phoneNumber}
-        onChange={handlePhoneChange}
-      />
-      <label htmlFor="phone-input">Phone number</label>
-    </div>
+    <LabeledInput
+      id="phone-input"
+      placeholder="Phone number"
+      type="text"
+      value={phoneNumber}
+      onChange={handlePhoneChange}
+    />
   );
 };
 

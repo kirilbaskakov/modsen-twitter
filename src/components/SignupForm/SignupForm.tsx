@@ -1,10 +1,10 @@
+import { signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 
 import BackTwitter from '@/assets/back-twitter.png';
 import GoogleLogo from '@/assets/google-icon.svg';
 import TwitterLogo from '@/assets/twitter-logo.svg';
-import { signInWithPopup } from 'firebase/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/firebase';
 
 const SignupForm = () => {

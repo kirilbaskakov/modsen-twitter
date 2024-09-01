@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import cn from 'classnames';
-import PhoneInput from '../PhoneInput/PhoneInput';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import { validateEmail, validateName } from '@/constants/validation';
+
 import DateInput from '../DateInput/DateInput';
+import LabeledInput from '../LabeledInput/LabeledInput';
+import PhoneInput from '../PhoneInput/PhoneInput';
 
 export interface NameFormInputs {
   name: string;
@@ -30,49 +34,26 @@ const RegisterNameForm = ({
       onSubmit={handleSubmit(onSubmit)}
       className="mt-6 flex flex-col gap-2"
     >
-      <div className="relative">
-        <input
-          id="name-input"
-          className={'peer ' + cn({ error: !!errors.name })}
-          placeholder=""
-          type="text"
-          {...register('name', {
-            required: 'Name is required',
-            minLength: {
-              value: 5,
-              message: 'Name must be longer than 5 characters'
-            },
-            maxLength: {
-              value: 50,
-              message: 'Name must be shorter than 50 characters'
-            }
-          })}
-        />
-        <label htmlFor="name-input">Name</label>
-      </div>
+      <LabeledInput
+        type="text"
+        id="name-input"
+        className={cn({ error: !!errors.name })}
+        placeholder="Name"
+        register={() => register('name', validateName)}
+      />
       <p className="text-red-500 text-xs font-bold h-3">
         {errors.name?.message}
       </p>
       {authType == 'phone' ? (
         <PhoneInput />
       ) : (
-        <div className="relative">
-          <input
-            id="email-input"
-            className={'peer ' + cn({ error: !!errors.email })}
-            placeholder=""
-            type="text"
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value:
-                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                message: 'Please enter a valid email'
-              }
-            })}
-          />
-          <label htmlFor="email-input">Email</label>
-        </div>
+        <LabeledInput
+          type="text"
+          id="email-input"
+          className={cn({ error: !!errors.email })}
+          placeholder="Email"
+          register={() => register('email', validateEmail)}
+        />
       )}
       <p className="text-red-500 text-xs font-bold h-3">
         {errors.email?.message}

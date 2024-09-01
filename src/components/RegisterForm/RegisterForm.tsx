@@ -1,19 +1,23 @@
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
-
-import TwitterLogo from '@/assets/twitter-logo.svg';
 import { SubmitHandler } from 'react-hook-form';
-import RegisterPasswordForm, {
-  PasswordFormInputs
-} from '../RegisterPasswordForm/RegisterPasswordForm';
+
+import createUser from '@/api/createUser';
+import TwitterLogo from '@/assets/twitter-logo.svg';
+import { auth } from '@/firebase';
+
+import Alert from '../Alert/Alert';
 import RegisterNameForm, {
   NameFormInputs
 } from '../RegisterNameForm/RegisterNameForm';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '@/firebase';
+import RegisterPasswordForm, {
+  PasswordFormInputs
+} from '../RegisterPasswordForm/RegisterPasswordForm';
 
 const RegisterForm = () => {
   const [nameData, setNameData] = useState<NameFormInputs | null>(null);
   const [step, setStep] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   const onFirstSubmit: SubmitHandler<NameFormInputs> = data => {
     setStep(1);
@@ -21,12 +25,25 @@ const RegisterForm = () => {
   };
 
   const onSecondSubmit: SubmitHandler<PasswordFormInputs> = data => {
+    if (!nameData) {
+      return;
+    }
     createUserWithEmailAndPassword(auth, nameData!.email!, data.password)
-      .then(({ user }) => updateProfile(user, { displayName: nameData?.name }))
-      .catch(reason => console.log(reason));
-    console.log(nameData, data);
+      .then(({ user }) => {
+        createUser({
+          name: nameData.name,
+          mail: nameData.email,
+          uid: user.uid,
+          gender: 'Unknown',
+          tg: '',
+          status: '',
+          birthDate: ''
+        });
+      })
+      .catch(reason => setError(reason.code));
   };
 
+  const onAlertClose = () => setError(null);
   return (
     <div className="mx-auto mt-16 w-1/3 min-w-96">
       <img src={TwitterLogo} className="mx-auto" alt="Twitter logo" />
@@ -36,6 +53,7 @@ const RegisterForm = () => {
       ) : (
         <RegisterPasswordForm onSubmit={onSecondSubmit} />
       )}
+      {error && <Alert text={error} type="error" onClose={onAlertClose} />}
     </div>
   );
 };

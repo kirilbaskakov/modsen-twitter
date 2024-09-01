@@ -1,19 +1,21 @@
+import cn from 'classnames';
+import { signOut } from 'firebase/auth';
+import { Link, useLocation } from 'react-router-dom';
+
+import Bookmarks from '@/assets/bookmarks.svg';
+import Explore from '@/assets/explore.svg';
 import Home from '@/assets/home.svg';
 import HomeFilled from '@/assets/home-filled.svg';
-import Explore from '@/assets/explore.svg';
-import Notifications from '@/assets/notification.svg';
-import Messages from '@/assets/messages.svg';
-import Bookmarks from '@/assets/bookmarks.svg';
 import Lists from '@/assets/lists.svg';
+import Messages from '@/assets/messages.svg';
+import More from '@/assets/more.svg';
+import Notifications from '@/assets/notification.svg';
 import Profile from '@/assets/profile.svg';
 import ProfileFilled from '@/assets/profile-filled.svg';
-import More from '@/assets/more.svg';
 import TwitterLogo from '@/assets/twitter-logo.svg';
-import UserInfo from '../UserInfo/UserInfo';
-import { Link, useLocation } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
 import { auth } from '@/firebase';
-import cn from 'classnames';
+
+import UserInfo from '../UserInfo/UserInfo';
 
 const links = [
   {

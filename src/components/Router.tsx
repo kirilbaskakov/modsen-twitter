@@ -1,3 +1,4 @@
+import { onAuthStateChanged } from 'firebase/auth';
 import { ElementType, ReactNode, Suspense, useState } from 'react';
 import {
   createBrowserRouter,
@@ -7,8 +8,7 @@ import {
   RouterProvider
 } from 'react-router-dom';
 
-import { nonAuthRoutes, authRoutes } from '@/constants/routes';
-import { onAuthStateChanged } from 'firebase/auth';
+import { authRoutes,nonAuthRoutes } from '@/constants/routes';
 import { auth } from '@/firebase';
 
 const createRouter = ({
