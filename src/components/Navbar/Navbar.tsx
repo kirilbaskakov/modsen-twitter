@@ -16,6 +16,10 @@ import TwitterLogo from '@/assets/twitter-logo.svg';
 import { auth } from '@/firebase';
 
 import UserInfo from '../UserInfo/UserInfo';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import { useEffect, useState } from 'react';
+import getUser from '@/api/getUser';
+import { UserType } from '@/types/UserType';
 
 const links = [
   {
@@ -68,7 +72,13 @@ const links = [
   }
 ];
 const Navbar = () => {
+  const currentUser = useCurrentUser();
+  const [user, setUser] = useState<UserType | null>(null);
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (currentUser) getUser(currentUser.uid).then(setUser);
+  }, [currentUser]);
 
   const onLogoutClicked = () => {
     signOut(auth);
@@ -93,7 +103,7 @@ const Navbar = () => {
         ))}
       </nav>
       <button className="mt-2 mb-10">Tweet</button>
-      <UserInfo />
+      <UserInfo userId={user?.id} showFollow={false} />
       <button className="mt-5 secondary" onClick={onLogoutClicked}>
         Log out
       </button>
