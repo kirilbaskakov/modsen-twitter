@@ -33,6 +33,14 @@ export const authRoutes = {
     {
       path: 'profile',
       element: lazy(() => import('@/pages/ProfilePage'))
-    }
+    },
+    {
+      path: 'profile/following',
+      element: lazy(() => import('@/pages/FollowingPage'))
+    },
+    {
+      path: 'profile/followers',
+      element: lazy(() => import('@/pages/FollowersPage'))
+    },
   ]
 };

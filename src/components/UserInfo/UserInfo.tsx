@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 
-import getUser from '@/api/getUser';
 import ImagePlaceholder from '@/assets/image-placeholder.svg';
-import useCurrentUser from '@/hooks/useCurrentUser';
 import { UserType } from '@/types/UserType';
+import getUserById from '@/api/getUserById';
+import FollowButton from '../FollowButton/FollowButton';
 
-const UserInfo = () => {
+const UserInfo = ({
+  userId,
+  showFollow
+}: {
+  userId: string | undefined;
+  showFollow: boolean;
+}) => {
   const [user, setUser] = useState<UserType | null>(null);
-  const currentUser = useCurrentUser();
 
   useEffect(() => {
-    if (currentUser) {
-      getUser(currentUser.uid).then(setUser);
-    }
-  }, [currentUser]);
+    if (userId) getUserById(userId).then(setUser);
+  }, [userId]);
 
   return (
     <div className="flex gap-4">
@@ -29,6 +32,7 @@ const UserInfo = () => {
           {user?.tg}
         </div>
       </div>
+      {showFollow && <FollowButton followingId={user?.id} />}
     </div>
   );
 };

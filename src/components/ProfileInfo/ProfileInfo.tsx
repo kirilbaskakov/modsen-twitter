@@ -6,16 +6,29 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 import { UserType } from '@/types/UserType';
 
 import EditModal from '../EditModal/EditModal';
+import { Link } from 'react-router-dom';
+import countFollowers from '@/api/countFollowers';
+import countFollowing from '@/api/countFollowing';
 
 const ProfileInfo = () => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
-
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
   const currentUser = useCurrentUser();
+
+  const getData = async (uid: string) => {
+    const user = await getUser(uid);
+    const followers = await countFollowers(user.id);
+    const followings = await countFollowing(user.id);
+    setUser(user);
+    setFollowersCount(followers);
+    setFollowingCount(followings);
+  };
 
   useEffect(() => {
     if (currentUser) {
-      getUser(currentUser.uid).then(setUser);
+      getData(currentUser.uid);
     }
   }, [currentUser]);
 
@@ -41,14 +54,14 @@ const ProfileInfo = () => {
         </button>
       </div>
       <div className="flex gap-6 mt-8 text-lg">
-        <div>
-          <span className="font-bold">67</span>{' '}
+        <Link to="following" className="hover:underline text-gray-400">
+          <span className="font-bold text-black">{followingCount}</span>{' '}
           <span className="text-gray-500">Following</span>
-        </div>
-        <div>
-          <span className="font-bold">47</span>{' '}
+        </Link>
+        <Link to="followers" className="hover:underline text-gray-400">
+          <span className="font-bold text-black">{followersCount}</span>{' '}
           <span className="text-gray-500">Followers</span>
-        </div>
+        </Link>
       </div>
       {isEditOpen && <EditModal isOpen={isEditOpen} onClose={onClose} />}
     </div>
