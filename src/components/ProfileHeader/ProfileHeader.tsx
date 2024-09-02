@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import getUser from '@/api/getUser';
+import getUser from '@/api/users/getUser';
 import Background from '@/assets/background.png';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import { UserType } from '@/types/UserType';
@@ -9,9 +9,14 @@ const ProfileHeader = () => {
   const [user, setUser] = useState<UserType | null>(null);
   const currentUser = useCurrentUser();
 
+  const getUserData = async (uid: string) => {
+    const user = await getUser(uid);
+    setUser(user);
+  };
+
   useEffect(() => {
     if (currentUser) {
-      getUser(currentUser.uid).then(setUser);
+      getUserData(currentUser.uid);
     }
   }, [currentUser]);
 

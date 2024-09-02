@@ -1,5 +1,6 @@
-import { db } from "@/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
+
+import { db } from "@/firebase";
 
 const getFollowers = async (userId: string): Promise<Array<string>> => {
     const followingsRef = collection(db, 'followings');

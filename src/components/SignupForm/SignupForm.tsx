@@ -12,27 +12,9 @@ const SignupForm = () => {
 
   const onGoogleClicked = () => {
     const provider = new GoogleAuthProvider();
-    console.log(auth);
-    signInWithPopup(auth, provider)
-      .then(result => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        console.log(token, user);
-      })
-      .catch(error => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-        console.log(errorCode, errorMessage);
-      });
+    signInWithPopup(auth, provider);
   };
+
   const onSignupClicked = () => {
     navigate('/register');
   };

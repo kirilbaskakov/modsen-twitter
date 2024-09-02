@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import TwitterLogo from '@/assets/twitter-logo.svg';
@@ -11,13 +11,17 @@ import LabeledInput from '../LabeledInput/LabeledInput';
 const LoginForm = () => {
   const [error, setError] = useState(null);
 
-  const onSubmit = e => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const login = e.target.login.value;
-    const password = e.target.password.value;
-    signInWithEmailAndPassword(auth, login, password)
-      .then(() => console.log('ok'))
-      .catch(err => setError(err.code));
+    const elements = e.currentTarget.elements as HTMLFormControlsCollection & {
+      login: HTMLInputElement;
+      password: HTMLInputElement;
+    };
+    const login = elements.login.value;
+    const password = elements.password.value;
+    signInWithEmailAndPassword(auth, login, password).catch(err =>
+      setError(err.code)
+    );
   };
 
   const onAlertClose = () => setError(null);

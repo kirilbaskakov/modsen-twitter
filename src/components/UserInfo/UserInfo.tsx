@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import getUserById from '@/api/users/getUserById';
 import ImagePlaceholder from '@/assets/image-placeholder.svg';
 import { UserType } from '@/types/UserType';
-import getUserById from '@/api/getUserById';
+
 import FollowButton from '../FollowButton/FollowButton';
 
 const UserInfo = ({
@@ -14,8 +15,13 @@ const UserInfo = ({
 }) => {
   const [user, setUser] = useState<UserType | null>(null);
 
+  const getUserData = async (userId: string) => {
+    const user = await getUserById(userId);
+    setUser(user);
+  };
+
   useEffect(() => {
-    if (userId) getUserById(userId).then(setUser);
+    if (userId) getUserData(userId);
   }, [userId]);
 
   return (

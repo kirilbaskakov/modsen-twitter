@@ -1,12 +1,18 @@
-import getUser from '@/api/getUser';
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState
+} from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import createTweet from '@/api/tweets/createTweet';
+import getUser from '@/api/users/getUser';
 import ImageIcon from '@/assets/image.svg';
+import ImagePlaceholder from '@/assets/image-placeholder.svg';
+import { validateTweetText } from '@/constants/validation';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import { UserType } from '@/types/UserType';
-import { useEffect, useState } from 'react';
-import ImagePlaceholder from '@/assets/image-placeholder.svg';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { validateTweetText } from '@/constants/validation';
-import createTweet from '@/api/createTweet';
 
 const CreateTweetForm = () => {
   const {
@@ -19,17 +25,19 @@ const CreateTweetForm = () => {
   const [user, setUser] = useState<UserType | null>(null);
   const currentUser = useCurrentUser();
 
-  const onSubmit: SubmitHandler<{ text: string }> = data => {
-    createTweet(
+  const onSubmit: SubmitHandler<{ text: string }> = async data => {
+    await createTweet(
       {
         authorId: user!.id,
         text: data.text
       },
       images
-    ).then(() => window.location.reload());
+    );
+    window.location.reload();
   };
 
-  const onImageSelected = e => {
+  const onImageSelected: ChangeEventHandler<HTMLInputElement> = e => {
+    if (!e.target.files) return;
     const file = e.target.files[0];
     setImages(images => [...images, file]);
     if (file) {
@@ -46,9 +54,20 @@ const CreateTweetForm = () => {
     setPreviews(previews => previews.filter((_, ind) => ind != index));
   };
 
+  const onInput: FormEventHandler<HTMLTextAreaElement> = e => {
+    const target = e.target as HTMLElement;
+    target.style.height = 'auto';
+    target.style.height = `${target.scrollHeight}px`;
+  };
+
+  const getUserData = async (uid: string) => {
+    const user = await getUser(uid);
+    setUser(user);
+  };
+
   useEffect(() => {
     if (currentUser) {
-      getUser(currentUser.uid).then(setUser);
+      getUserData(currentUser.uid);
     }
   }, [currentUser]);
 
@@ -62,10 +81,7 @@ const CreateTweetForm = () => {
         <textarea
           className="w-full text-xl resize-none focus:outline-none h-auto ovef"
           placeholder="What's happening"
-          onInput={e => {
-            e.target.style.height = 'auto';
-            e.target.style.height = `${e.target.scrollHeight}px`;
-          }}
+          onInput={onInput}
           {...register('text', validateTweetText)}
         ></textarea>
         <div className="grid grid-cols-2 gap-4">

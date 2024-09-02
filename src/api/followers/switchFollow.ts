@@ -1,4 +1,3 @@
-import { db } from '@/firebase';
 import {
   addDoc,
   collection,
@@ -8,6 +7,8 @@ import {
   query,
   where
 } from 'firebase/firestore';
+
+import { db } from '@/firebase';
 
 const switchFollow = async (followerId: string, followingId: string) => {
   const followingsRef = collection(db, 'followings');

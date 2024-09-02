@@ -1,5 +1,3 @@
-import { db } from '@/firebase';
-import { TweetType } from '@/types/TweetType';
 import {
   collection,
   getCountFromServer,
@@ -8,6 +6,9 @@ import {
   query,
   where
 } from 'firebase/firestore';
+
+import { db } from '@/firebase';
+import { TweetType } from '@/types/TweetType';
 
 const getUserTweets = async (id: string): Promise<Array<TweetType>> => {
   const tweetsRef = collection(db, 'tweets');
@@ -34,7 +35,7 @@ const getUserTweets = async (id: string): Promise<Array<TweetType>> => {
       where('userId', '==', id)
     );
     const userLikeSnapshot = await getDocs(userLikeQuery);
-    const likedByCurrentUser = !userLikeSnapshot.empty; // true, если пользователь лайкнул твит
+    const likedByCurrentUser = !userLikeSnapshot.empty;
 
     tweets.push({
       ...(tweetData as Pick<TweetType, 'authorId' | 'imageUrls' | 'text'>),

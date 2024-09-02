@@ -1,11 +1,12 @@
-import getFollowings from '@/api/getFollowings';
-import getUser from '@/api/getUser';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import getFollowings from '@/api/followers/getFollowings';
+import getUser from '@/api/users/getUser';
+import BackIcon from '@/assets/back.png';
 import UserInfo from '@/components/UserInfo/UserInfo';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import { UserType } from '@/types/UserType';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import BackIcon from '@/assets/back.png';
 
 const FollowingPage = () => {
   const navigate = useNavigate();
@@ -13,15 +14,16 @@ const FollowingPage = () => {
   const [followings, setFollowings] = useState<Array<string>>([]);
   const [user, setUser] = useState<UserType | null>(null);
 
+  const getData = async (uid: string) => {
+    const user = await getUser(uid);
+    const followers = await getFollowings(user.id);
+    setUser(user);
+    setFollowings(followers);
+  };
+
   useEffect(() => {
     if (currentUser) {
-      getUser(currentUser.uid)
-        .then(user => {
-          setUser(user);
-          return user;
-        })
-        .then(user => getFollowings(user.id))
-        .then(setFollowings);
+      getData(currentUser.uid);
     }
   }, [currentUser]);
 

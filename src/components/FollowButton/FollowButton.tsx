@@ -1,10 +1,11 @@
-import checkFollow from '@/api/checkFollow';
-import getUser from '@/api/getUser';
-import switchFollow from '@/api/switchFollow';
-import useCurrentUser from '@/hooks/useCurrentUser';
-import { UserType } from '@/types/UserType';
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
+
+import checkFollow from '@/api/followers/checkFollow';
+import switchFollow from '@/api/followers/switchFollow';
+import getUser from '@/api/users/getUser';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import { UserType } from '@/types/UserType';
 
 const FollowButton = ({ followingId }: { followingId: string | undefined }) => {
   const currentUser = useCurrentUser();

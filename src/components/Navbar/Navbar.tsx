@@ -1,7 +1,9 @@
 import cn from 'classnames';
 import { signOut } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import getUser from '@/api/users/getUser';
 import Bookmarks from '@/assets/bookmarks.svg';
 import Explore from '@/assets/explore.svg';
 import Home from '@/assets/home.svg';
@@ -14,12 +16,10 @@ import Profile from '@/assets/profile.svg';
 import ProfileFilled from '@/assets/profile-filled.svg';
 import TwitterLogo from '@/assets/twitter-logo.svg';
 import { auth } from '@/firebase';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import { UserType } from '@/types/UserType';
 
 import UserInfo from '../UserInfo/UserInfo';
-import useCurrentUser from '@/hooks/useCurrentUser';
-import { useEffect, useState } from 'react';
-import getUser from '@/api/getUser';
-import { UserType } from '@/types/UserType';
 
 const links = [
   {
@@ -76,8 +76,13 @@ const Navbar = () => {
   const [user, setUser] = useState<UserType | null>(null);
   const { pathname } = useLocation();
 
+  const getUserData = async (uid: string) => {
+    const user = await getUser(uid);
+    setUser(user);
+  };
+
   useEffect(() => {
-    if (currentUser) getUser(currentUser.uid).then(setUser);
+    if (currentUser) getUserData(currentUser.uid);
   }, [currentUser]);
 
   const onLogoutClicked = () => {

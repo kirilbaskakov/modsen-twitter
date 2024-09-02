@@ -1,5 +1,6 @@
-import { db } from '@/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+
+import { db } from '@/firebase';
 
 async function checkFollow(followerId: string, followingId: string) {
   const followingsRef = collection(db, 'followings');

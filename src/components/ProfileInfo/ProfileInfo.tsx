@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import getUser from '@/api/getUser';
+import countFollowers from '@/api/followers/countFollowers';
+import countFollowing from '@/api/followers/countFollowing';
+import getUser from '@/api/users/getUser';
 import ImageIcon from '@/assets/image-placeholder.svg';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import { UserType } from '@/types/UserType';
 
 import EditModal from '../EditModal/EditModal';
-import { Link } from 'react-router-dom';
-import countFollowers from '@/api/countFollowers';
-import countFollowing from '@/api/countFollowing';
 
 const ProfileInfo = () => {
   const [user, setUser] = useState<UserType | null>(null);

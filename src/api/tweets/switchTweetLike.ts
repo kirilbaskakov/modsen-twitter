@@ -1,4 +1,3 @@
-import { db } from '@/firebase';
 import {
   addDoc,
   collection,
@@ -8,6 +7,8 @@ import {
   query,
   where
 } from 'firebase/firestore';
+
+import { db } from '@/firebase';
 
 const switchTweetLike = async (tweetId: string, userId: string) => {
   const likesRef = collection(db, 'likes');

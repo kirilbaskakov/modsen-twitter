@@ -1,11 +1,11 @@
-import { Timestamp, addDoc, collection, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, Timestamp, updateDoc } from 'firebase/firestore';
 
 import { db } from '@/firebase';
-import { TweetType } from '@/types/TweetType';
+
 import uploadImages from './uploadImages';
 
 const createTweet = async (
-  tweetData: Omit<TweetType, 'date' | 'imageUrls'>,
+  tweetData: { authorId: string; text: string },
   images: Array<File>
 ): Promise<void> => {
   const tweetsRef = collection(db, 'tweets');

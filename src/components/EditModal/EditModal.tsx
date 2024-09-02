@@ -2,9 +2,9 @@ import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import getUser from '@/api/getUser';
-import updateUser from '@/api/updateUser';
-import uploadAvatar from '@/api/uploadAvatar';
+import getUser from '@/api/users/getUser';
+import updateUser from '@/api/users/updateUser';
+import uploadAvatar from '@/api/users/uploadAvatar';
 import {
   validateName,
   validateStatus,
@@ -35,9 +35,14 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
   const [image, setImage] = useState<File | null>(null);
   const currentUser = useCurrentUser();
 
+  const getUserData = async (uid: string) => {
+    const user = await getUser(uid);
+    setUser(user);
+  };
+
   useEffect(() => {
     if (currentUser) {
-      getUser(currentUser.uid).then(setUser);
+      getUserData(currentUser.uid);
     }
   }, [currentUser]);
 
@@ -46,18 +51,13 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
     if (image) {
       userData.photoUrl = await uploadAvatar(image, user!.id);
     }
-    updateUser(user!.id, userData)
-      .then(() => window.location.reload())
-      .catch(console.log);
+    await updateUser(user!.id, userData);
+    window.location.reload();
   };
 
   const onImageChange = (image: File) => setImage(image);
 
-  if (!isOpen) {
-    return null;
-  }
-
-  if (!user) {
+  if (!isOpen || !user) {
     return null;
   }
 

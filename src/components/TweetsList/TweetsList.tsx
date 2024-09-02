@@ -1,5 +1,5 @@
-import { TweetType } from '@/types/TweetType';
 import Tweet from '@/components/Tweet/Tweet';
+import { TweetType } from '@/types/TweetType';
 
 const TweetsList = ({ tweets }: { tweets: Array<TweetType> }) => {
   return (

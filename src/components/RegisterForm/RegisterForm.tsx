@@ -1,8 +1,9 @@
+import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
-import createUser from '@/api/createUser';
+import createUser from '@/api/users/createUser';
 import TwitterLogo from '@/assets/twitter-logo.svg';
 import { auth } from '@/firebase';
 
@@ -24,23 +25,30 @@ const RegisterForm = () => {
     setNameData(data);
   };
 
-  const onSecondSubmit: SubmitHandler<PasswordFormInputs> = data => {
+  const onSecondSubmit: SubmitHandler<PasswordFormInputs> = async data => {
     if (!nameData) {
       return;
     }
-    createUserWithEmailAndPassword(auth, nameData!.email!, data.password)
-      .then(({ user }) => {
-        createUser({
-          name: nameData.name,
-          mail: nameData.email,
-          uid: user.uid,
-          gender: 'Unknown',
-          tg: '',
-          status: '',
-          birthDate: ''
-        });
-      })
-      .catch(reason => setError(reason.code));
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        nameData!.email!,
+        data.password
+      );
+      createUser({
+        name: nameData.name,
+        mail: nameData.email,
+        uid: user.uid,
+        gender: 'Unknown',
+        tg: '',
+        status: '',
+        birthDate: ''
+      });
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        setError(error.code);
+      }
+    }
   };
 
   const onAlertClose = () => setError(null);

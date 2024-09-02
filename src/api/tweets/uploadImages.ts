@@ -1,5 +1,6 @@
-import { storage } from '@/firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+
+import { storage } from '@/firebase';
 
 async function uploadImages(files: Array<File>, tweetId: string) {
   const imagePromises = Array.from(files).map(async file => {

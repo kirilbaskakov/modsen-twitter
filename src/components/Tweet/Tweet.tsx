@@ -1,14 +1,14 @@
+import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
+import deleteTweet from '@/api/tweets/deleteTweet';
+import switchTweetLike from '@/api/tweets/switchTweetLike';
+import getUserById from '@/api/users/getUserById';
 import LikeIcon from '@/assets/like.svg';
 import LikeFilledIcon from '@/assets/like-filled.svg';
 import { TweetType } from '@/types/TweetType';
 import { UserType } from '@/types/UserType';
-import getUserById from '@/api/getUserById';
 import displayDate from '@/utils/displayDate';
-import deleteTweet from '@/api/deleteTweet';
-import cn from 'classnames';
-import switchTweetLike from '@/api/switchTweetLike';
 
 const Tweet = ({
   id,
@@ -22,20 +22,28 @@ const Tweet = ({
   const [user, setUser] = useState<UserType | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const getUserData = async (authorId: string) => {
+    const user = await getUserById(authorId);
+    setUser(user);
+  };
+
   useEffect(() => {
     if (authorId) {
-      getUserById(authorId).then(setUser);
+      getUserData(authorId);
     }
   }, [authorId]);
 
   const onMenuClick = () => setMenuOpen(menuOpen => !menuOpen);
 
-  const onDelete = () => {
-    deleteTweet(id).then(() => window.location.reload());
+  const onDelete = async () => {
+    await deleteTweet(id);
+    window.location.reload();
   };
 
-  const onLikeClick = () => {
-    if (user) switchTweetLike(id, user.id).then(() => window.location.reload());
+  const onLikeClick = async () => {
+    if (!user) return;
+    await switchTweetLike(id, user.id);
+    window.location.reload();
   };
 
   return (
