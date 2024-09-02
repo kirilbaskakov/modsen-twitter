@@ -44,3 +44,11 @@ export const validatePassword = {
     message: 'Password must be shorter than 50 characters'
   }
 };
+
+export const validateTweetText = {
+  required: 'Text is required',
+  maxLength: {
+    value: 1500,
+    message: 'Message must be shorter than 1500 characters'
+  }
+};
