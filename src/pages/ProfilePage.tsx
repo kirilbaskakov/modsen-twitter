@@ -1,23 +1,30 @@
-import ImageIcon from '@/assets/image-placeholder.svg';
+import getUser from '@/api/getUser';
+import getUserTweets from '@/api/getUserTweets';
+import CreateTweetForm from '@/components/CreateTweetForm/CreateTweetForm';
 import ProfileHeader from '@/components/ProfileHeader/ProfileHeader';
 import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
-import Tweet from '@/components/Tweet/Tweet';
+import TweetsList from '@/components/TweetsList/TweetsList';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import { TweetType } from '@/types/TweetType';
+import { useEffect, useState } from 'react';
 
 const ProfilePage = () => {
+  const currentUser = useCurrentUser();
+  const [tweets, setTweets] = useState<Array<TweetType>>([]);
+
+  useEffect(() => {
+    if (currentUser)
+      getUser(currentUser.uid)
+        .then(user => getUserTweets(user.id))
+        .then(setTweets);
+  }, [currentUser]);
+
   return (
     <>
       <ProfileHeader />
       <ProfileInfo />
-      <Tweet
-        img={ImageIcon}
-        name="Bobur"
-        username="@bobur_mavlonov"
-        date={new Date(Date.UTC(2024, 6, 12))}
-        text={
-          "4-kursni tugatgunimcha kamida bitta biznesim bo'lishini, uylanish uchun moddiy jihatdan to'la-to'kis tayyor bo'lishni, sog'lik va jismoniy holatni normallashtirishni reja qildim"
-        }
-        likes={8}
-      />
+      <CreateTweetForm />
+      <TweetsList tweets={tweets} />
     </>
   );
 };
