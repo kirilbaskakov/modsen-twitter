@@ -1,4 +1,5 @@
 import {
+  QueryConstraint,
   collection,
   getCountFromServer,
   getDocs,
@@ -10,13 +11,17 @@ import {
 import { db } from '@/firebase';
 import { TweetType } from '@/types/TweetType';
 
-const getUserTweets = async (id: string): Promise<Array<TweetType>> => {
+const getTweets = async (
+  userId: string,
+  onlyUserTweets: boolean
+): Promise<Array<TweetType>> => {
   const tweetsRef = collection(db, 'tweets');
-  const q = query(
-    tweetsRef,
-    where('authorId', '==', id),
-    orderBy('date', 'desc')
-  );
+
+  const constraints: Array<QueryConstraint> = [orderBy('date', 'desc')];
+  if (onlyUserTweets) {
+    constraints.push(where('authorId', '==', userId));
+  }
+  const q = query(tweetsRef, ...constraints);
   const response = await getDocs(q);
 
   const tweets: Array<TweetType> = [];
@@ -32,7 +37,7 @@ const getUserTweets = async (id: string): Promise<Array<TweetType>> => {
     const userLikeQuery = query(
       likesRef,
       where('tweetId', '==', tweetId),
-      where('userId', '==', id)
+      where('userId', '==', userId)
     );
     const userLikeSnapshot = await getDocs(userLikeQuery);
     const likedByCurrentUser = !userLikeSnapshot.empty;
@@ -49,4 +54,4 @@ const getUserTweets = async (id: string): Promise<Array<TweetType>> => {
   return tweets;
 };
 
-export default getUserTweets;
+export default getTweets;
