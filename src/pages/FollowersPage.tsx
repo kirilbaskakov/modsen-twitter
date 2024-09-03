@@ -2,28 +2,23 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import getFollowers from '@/api/followers/getFollowers';
-import getUser from '@/api/users/getUser';
 import BackIcon from '@/assets/back.png';
 import UserInfo from '@/components/UserInfo/UserInfo';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import { UserType } from '@/types/UserType';
 
 const FollowersPage = () => {
   const navigate = useNavigate();
   const currentUser = useCurrentUser();
   const [followers, setFollowers] = useState<Array<string>>([]);
-  const [user, setUser] = useState<UserType | null>(null);
 
-  const getData = async (uid: string) => {
-    const user = await getUser(uid);
-    const followers = await getFollowers(user.id);
-    setUser(user);
+  const getData = async () => {
+    const followers = await getFollowers(currentUser!.id);
     setFollowers(followers);
   };
 
   useEffect(() => {
     if (currentUser) {
-      getData(currentUser.uid);
+      getData();
     }
   }, [currentUser]);
 
@@ -40,7 +35,7 @@ const FollowersPage = () => {
           src={BackIcon}
         />
         <div>
-          <h3 className="font-bold text-lg">{user?.name}</h3>
+          <h3 className="font-bold text-lg">{currentUser?.name}</h3>
           <p className="text-gray-500 text-sm">{followers.length} Followers</p>
         </div>
       </div>
