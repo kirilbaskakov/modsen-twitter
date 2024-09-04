@@ -1,18 +1,11 @@
-import {
-  ChangeEventHandler,
-  FormEventHandler,
-  useEffect,
-  useState
-} from 'react';
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import createTweet from '@/api/tweets/createTweet';
-import getUser from '@/api/users/getUser';
 import ImageIcon from '@/assets/image.svg';
 import ImagePlaceholder from '@/assets/image-placeholder.svg';
 import { validateTweetText } from '@/constants/validation';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import { UserType } from '@/types/UserType';
 
 const CreateTweetForm = () => {
   const {
@@ -22,13 +15,12 @@ const CreateTweetForm = () => {
   } = useForm<{ text: string }>();
   const [images, setImages] = useState<Array<File>>([]);
   const [previews, setPreviews] = useState<Array<string>>([]);
-  const [user, setUser] = useState<UserType | null>(null);
   const currentUser = useCurrentUser();
 
   const onSubmit: SubmitHandler<{ text: string }> = async data => {
     await createTweet(
       {
-        authorId: user!.id,
+        authorId: currentUser!.id,
         text: data.text
       },
       images
@@ -60,22 +52,11 @@ const CreateTweetForm = () => {
     target.style.height = `${target.scrollHeight}px`;
   };
 
-  const getUserData = async (uid: string) => {
-    const user = await getUser(uid);
-    setUser(user);
-  };
-
-  useEffect(() => {
-    if (currentUser) {
-      getUserData(currentUser.uid);
-    }
-  }, [currentUser]);
-
   return (
     <div className="border-y-2 py-3 flex gap-6">
       <img
         className="w-12 h-12 rounded-full object-cover"
-        src={user?.photoUrl ?? ImagePlaceholder}
+        src={currentUser?.photoUrl ?? ImagePlaceholder}
       />
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <textarea

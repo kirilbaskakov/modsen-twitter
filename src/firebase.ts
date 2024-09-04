@@ -12,8 +12,6 @@ const {
   VITE_APP_ID
 } = import.meta.env;
 
-console.log(import.meta.env);
-
 const firebaseConfig = {
   apiKey: VITE_API_KEY,
   authDomain: VITE_AUTH_DOMAIN,

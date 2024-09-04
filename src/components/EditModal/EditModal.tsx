@@ -1,8 +1,7 @@
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import getUser from '@/api/users/getUser';
 import updateUser from '@/api/users/updateUser';
 import uploadAvatar from '@/api/users/uploadAvatar';
 import {
@@ -31,33 +30,21 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
     handleSubmit,
     formState: { errors }
   } = useForm<EditModalInputs>();
-  const [user, setUser] = useState<UserType | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const currentUser = useCurrentUser();
-
-  const getUserData = async (uid: string) => {
-    const user = await getUser(uid);
-    setUser(user);
-  };
-
-  useEffect(() => {
-    if (currentUser) {
-      getUserData(currentUser.uid);
-    }
-  }, [currentUser]);
 
   const onSubmit: SubmitHandler<EditModalInputs> = async data => {
     const userData: Partial<UserType> = data;
     if (image) {
-      userData.photoUrl = await uploadAvatar(image, user!.id);
+      userData.photoUrl = await uploadAvatar(image, currentUser!.id);
     }
-    await updateUser(user!.id, userData);
+    await updateUser(currentUser!.id, userData);
     window.location.reload();
   };
 
   const onImageChange = (image: File) => setImage(image);
 
-  if (!isOpen || !user) {
+  if (!isOpen || !currentUser) {
     return null;
   }
 
@@ -69,13 +56,16 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
           className="flex flex-col mt-4 gap-2"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <ImagePicker defaultImage={user?.photoUrl} onChange={onImageChange} />
+          <ImagePicker
+            defaultImage={currentUser?.photoUrl}
+            onChange={onImageChange}
+          />
           <LabeledInput
             type="text"
             id="name-input"
             className={cn({ error: !!errors.name })}
             placeholder="Name"
-            defaultValue={user?.name}
+            defaultValue={currentUser?.name}
             register={() => register('name', validateName)}
           />
           <p className="text-red-500 text-xs font-bold h-3">
@@ -86,7 +76,7 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
             id="status-input"
             className={cn({ error: !!errors.status })}
             placeholder="Status"
-            defaultValue={user?.status}
+            defaultValue={currentUser?.status}
             register={() => register('status', validateStatus)}
           />
           <p className="text-red-500 text-xs font-bold h-3">
@@ -97,7 +87,7 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
             id="tg-input"
             className={cn({ error: !!errors.tg })}
             placeholder="Telegram"
-            defaultValue={user?.tg}
+            defaultValue={currentUser?.tg}
             register={() => register('tg', validateTg)}
           />
           <p className="text-red-500 text-xs font-bold h-3">
@@ -112,7 +102,7 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
                 name="gender"
                 value="Male"
                 id="male"
-                defaultChecked={user?.gender === 'Male'}
+                defaultChecked={currentUser?.gender === 'Male'}
               />
               <label htmlFor="male">Male</label>
             </div>
@@ -123,7 +113,7 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
                 name="gender"
                 value="Female"
                 id="female"
-                defaultChecked={user?.gender === 'Female'}
+                defaultChecked={currentUser?.gender === 'Female'}
               />
               <label htmlFor="female">Female</label>
             </div>
@@ -134,7 +124,7 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
                 name="gender"
                 value="Unknown"
                 id="unknown"
-                defaultChecked={user?.gender === 'Unknown'}
+                defaultChecked={currentUser?.gender === 'Unknown'}
               />
               <label htmlFor="unknown">Unknown</label>
             </div>

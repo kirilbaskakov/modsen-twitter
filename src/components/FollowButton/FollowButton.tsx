@@ -3,33 +3,25 @@ import { useEffect, useState } from 'react';
 
 import checkFollow from '@/api/followers/checkFollow';
 import switchFollow from '@/api/followers/switchFollow';
-import getUser from '@/api/users/getUser';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import { UserType } from '@/types/UserType';
 
 const FollowButton = ({ followingId }: { followingId: string | undefined }) => {
   const currentUser = useCurrentUser();
-  const [user, setUser] = useState<UserType | null>(null);
   const [isFollowed, setIsFollowed] = useState(false);
 
-  const getData = async (uid: string) => {
-    const user = await getUser(uid);
-    setUser(user);
-    console.log(user.id, followingId);
-    setIsFollowed(await checkFollow(user.id, followingId!));
+  const getData = async () => {
+    setIsFollowed(await checkFollow(currentUser!.id, followingId!));
   };
 
   useEffect(() => {
     if (currentUser && followingId) {
-      getData(currentUser.uid);
+      getData();
     }
   }, [currentUser, followingId]);
 
-  console.log(isFollowed);
-
   const onClick = () => {
     setIsFollowed(isFollowed => !isFollowed);
-    if (user && followingId) switchFollow(user.id, followingId);
+    if (currentUser && followingId) switchFollow(currentUser.id, followingId);
   };
 
   return (
