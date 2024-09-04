@@ -1,8 +1,9 @@
+import { onAuthStateChanged,User } from 'firebase/auth';
+import { createContext, ReactNode, useState } from 'react';
+
 import { getUser } from '@/api/users';
 import { auth } from '@/firebase';
 import { UserType } from '@/types/UserType';
-import { User, onAuthStateChanged } from 'firebase/auth';
-import { ReactNode, createContext, useState } from 'react';
 
 export const userContext = createContext<UserType | null>(null);
 

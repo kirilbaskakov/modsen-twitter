@@ -1,10 +1,13 @@
 import {
-  QueryConstraint,
   collection,
   getCountFromServer,
   getDocs,
+  limit,
   orderBy,
   query,
+  QueryConstraint,
+  QueryDocumentSnapshot,
+  startAfter,
   where
 } from 'firebase/firestore';
 
@@ -13,16 +16,24 @@ import { TweetType } from '@/types/TweetType';
 
 const getTweets = async (
   userId: string,
+  last: QueryDocumentSnapshot | null,
+  tweetsLimit: number,
   onlyUserTweets: boolean
-): Promise<Array<TweetType>> => {
+): Promise<[Array<TweetType>, QueryDocumentSnapshot]> => {
   const tweetsRef = collection(db, 'tweets');
 
   const constraints: Array<QueryConstraint> = [orderBy('date', 'desc')];
   if (onlyUserTweets) {
     constraints.push(where('authorId', '==', userId));
   }
+  if (last) {
+    constraints.push(startAfter(last));
+  }
+  constraints.push(limit(tweetsLimit));
+
   const q = query(tweetsRef, ...constraints);
   const response = await getDocs(q);
+  const newLast = response.docs[response.docs.length - 1];
 
   const tweets: Array<TweetType> = [];
   for (const doc of response.docs) {
@@ -50,8 +61,7 @@ const getTweets = async (
       date: new Date(tweetData.date.seconds * 1000)
     });
   }
-
-  return tweets;
+  return [tweets, newLast];
 };
 
 export default getTweets;

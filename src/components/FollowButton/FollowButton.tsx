@@ -19,8 +19,6 @@ const FollowButton = ({ followingId }: { followingId: string | undefined }) => {
     }
   }, [currentUser, followingId]);
 
-  console.log(isFollowed);
-
   const onClick = () => {
     setIsFollowed(isFollowed => !isFollowed);
     if (currentUser && followingId) switchFollow(currentUser.id, followingId);
