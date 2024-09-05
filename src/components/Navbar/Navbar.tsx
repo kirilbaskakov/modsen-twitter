@@ -18,7 +18,7 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 
 import UserInfo from '../UserInfo/UserInfo';
 
-const links = [
+const links = (userId: string) => [
   {
     title: 'Home',
     icon: Home,
@@ -59,7 +59,7 @@ const links = [
     title: 'Profile',
     icon: Profile,
     iconActive: ProfileFilled,
-    link: '/profile'
+    link: `/profile/${userId}`
   },
   {
     title: 'More',
@@ -80,19 +80,20 @@ const Navbar = () => {
     <div className="w-52">
       <img src={TwitterLogo} alt="Twitter logo" />
       <nav className="mt-6">
-        {links.map(({ title, icon, link, iconActive }) => (
-          <Link
-            to={link}
-            className="flex items-center gap-4 py-2 pr-2 rounded-md hover:bg-gray-100 cursor-pointer text-black"
-          >
-            <img src={pathname === link ? iconActive : icon} alt={title} />
-            <span
-              className={'text-lg ' + cn({ 'font-bold': pathname === link })}
+        {currentUser &&
+          links(currentUser.id).map(({ title, icon, link, iconActive }) => (
+            <Link
+              to={link}
+              className="flex items-center gap-4 py-2 pr-2 rounded-md hover:bg-gray-100 cursor-pointer text-black"
             >
-              {title}
-            </span>
-          </Link>
-        ))}
+              <img src={pathname === link ? iconActive : icon} alt={title} />
+              <span
+                className={'text-lg ' + cn({ 'font-bold': pathname === link })}
+              >
+                {title}
+              </span>
+            </Link>
+          ))}
       </nav>
       <button className="mt-2 mb-10">Tweet</button>
       <UserInfo userId={currentUser?.id} showFollow={false} />

@@ -1,25 +1,28 @@
-import { onAuthStateChanged,User } from 'firebase/auth';
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
-import { getUser } from '@/api/users';
-import { auth } from '@/firebase';
+import { getUserById } from '@/api/users';
 import { UserType } from '@/types/UserType';
 
 export const userContext = createContext<UserType | null>(null);
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+export const UserProvider = ({
+  id,
+  children
+}: {
+  id: string | undefined;
+  children: ReactNode;
+}) => {
   const [user, setUser] = useState<UserType | null>(null);
 
-  onAuthStateChanged(auth, async (newUser: User | null) => {
-    if (!newUser) {
-      setUser(null);
-      return;
-    }
-    if (!user) {
-      const userData = await getUser(newUser.uid);
-      setUser(userData);
-    }
-  });
+  const getUser = async () => {
+    if (!id) return;
+    const user = await getUserById(id);
+    setUser(user);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [id]);
 
   return <userContext.Provider value={user}>{children}</userContext.Provider>;
 };

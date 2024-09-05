@@ -20,9 +20,11 @@ const TweetsList = ({
   const ref = useRef(null);
 
   const getData = useCallback(async () => {
+    console.log('intersect');
     if (isLoading || !currentUser || last === undefined) {
       return;
     }
+    console.log('getting data');
     setIsLoading(true);
     const [data, newLast] = await getTweets(
       currentUser!.id,

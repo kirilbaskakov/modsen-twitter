@@ -1,11 +1,11 @@
 import Router from './components/Router';
-import { UserProvider } from './context/userContext';
+import { CurrentUserProvider } from './context/currentUserContext';
 
 const App = () => {
   return (
-    <UserProvider>
+    <CurrentUserProvider>
       <Router />
-    </UserProvider>
+    </CurrentUserProvider>
   );
 };
 

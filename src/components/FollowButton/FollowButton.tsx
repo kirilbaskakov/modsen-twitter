@@ -28,7 +28,7 @@ const FollowButton = ({ followingId }: { followingId: string | undefined }) => {
     <button
       onClick={onClick}
       className={
-        'ml-auto w-32 text-sm py-0 align-self-center ' +
+        'ml-auto w-32 text-lg py-2 align-self-center ' +
         cn({ outlined: isFollowed })
       }
     >

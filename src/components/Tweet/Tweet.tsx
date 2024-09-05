@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import deleteTweet from '@/api/tweets/deleteTweet';
 import switchTweetLike from '@/api/tweets/switchTweetLike';
@@ -55,8 +56,15 @@ const Tweet = ({
       />
       <div>
         <div className="flex gap-2 items-end">
-          <p className="text-xl font-bold">{user?.name}</p>
-          <p className="text-gray-500 text-lg">{user?.tg}</p>
+          <Link
+            className="text-xl font-bold text-black"
+            to={`/profile/${user?.id}`}
+          >
+            {user?.name}
+          </Link>
+          <Link className="text-gray-500 text-lg" to={`/profile/${user?.id}`}>
+            {user?.tg}
+          </Link>
           <p className="text-gray-500 text-lg font-bold">·</p>
           <p className="text-gray-500 text-lg">{displayDate(date)}</p>
           <div

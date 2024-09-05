@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import getUserById from '@/api/users/getUserById';
 import ImagePlaceholder from '@/assets/image-placeholder.svg';
@@ -13,6 +14,7 @@ const UserInfo = ({
   userId: string | undefined;
   showFollow: boolean;
 }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<UserType | null>(null);
 
   const getUserData = async (userId: string) => {
@@ -20,12 +22,16 @@ const UserInfo = ({
     setUser(user);
   };
 
+  const onClick = () => {
+    if (user) navigate(`/profile/${user.id}`);
+  };
+
   useEffect(() => {
     if (userId) getUserData(userId);
   }, [userId]);
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 cursor-pointer" onClick={onClick}>
       <img
         className="w-12 h-12 rounded-full object-cover"
         src={user?.photoUrl ?? ImagePlaceholder}

@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 
-import { userContext } from '@/context/userContext';
+import { currentUserContext } from '@/context/currentUserContext';
 
 const useCurrentUser = () => {
-  return useContext(userContext);
+  return useContext(currentUserContext);
 };
 
 export default useCurrentUser;
