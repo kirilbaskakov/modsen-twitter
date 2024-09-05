@@ -5,6 +5,7 @@ import {
   doc,
   getDocs,
   query,
+  runTransaction,
   where
 } from 'firebase/firestore';
 
@@ -18,16 +19,26 @@ const switchTweetLike = async (tweetId: string, userId: string) => {
     where('userId', '==', userId)
   );
 
-  const querySnapshot = await getDocs(q);
+  await runTransaction(db, async transaction => {
+    const querySnapshot = await getDocs(q);
 
-  if (querySnapshot.empty) {
-    await addDoc(likesRef, {
-      tweetId: tweetId,
-      userId: userId
-    });
-  } else {
-    await deleteDoc(doc(db, 'likes', querySnapshot.docs[0].id));
-  }
+    if (querySnapshot.empty) {
+      // Если лайка нет, добавляем новый
+      const newLikeRef = doc(likesRef); // Создаем новый документ
+      transaction.set(newLikeRef, {
+        tweetId: tweetId,
+        userId: userId,
+        createdAt: new Date()
+      });
+      console.log('Лайк добавлен');
+    } else {
+      // Если лайк уже существует, снимаем лайк
+      querySnapshot.forEach(docSnapshot => {
+        transaction.delete(docSnapshot.ref);
+        console.log('Лайк снят');
+      });
+    }
+  });
 };
 
 export default switchTweetLike;

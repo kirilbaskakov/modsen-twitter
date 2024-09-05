@@ -22,7 +22,7 @@ const Tweet = ({
 }: TweetType) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [liked, setLiked] = useState(isLiked);
   const getUserData = async (authorId: string) => {
     const user = await getUserById(authorId);
     setUser(user);
@@ -43,8 +43,8 @@ const Tweet = ({
 
   const onLikeClick = async () => {
     if (!user) return;
+    setLiked(liked => !liked);
     await switchTweetLike(id, user.id);
-    window.location.reload();
   };
 
   return (
@@ -54,7 +54,7 @@ const Tweet = ({
         alt={`${user?.name} profile image`}
         className="w-12 h-12 rounded-full mt-2 object-cover"
       />
-      <div>
+      <div className="w-full">
         <div className="flex gap-2 items-end">
           <Link
             className="text-xl font-bold text-black"
@@ -87,8 +87,10 @@ const Tweet = ({
           {imageUrls?.map(url => <img src={url} />)}
         </div>
         <div className="flex gap-2 mt-3 cursor-pointer" onClick={onLikeClick}>
-          <img src={isLiked ? LikeFilledIcon : LikeIcon} alt="like" />
-          <span className={cn({ 'text-red-400': isLiked })}>{likes}</span>
+          <img src={liked ? LikeFilledIcon : LikeIcon} alt="like" />
+          <span className={cn({ 'text-red-400': liked })}>
+            {likes + (liked ? 1 : 0) - (isLiked ? 1 : 0)}
+          </span>
         </div>
       </div>
     </div>
