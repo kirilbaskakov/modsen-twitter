@@ -55,7 +55,7 @@ button.secondary {
 }
 
 button.outlined {
-    @apply bg-transparent text-black border-2 border-gray-100;
+    @apply bg-transparent text-black border-2 border-gray-200;
 }
 
 button:disabled {

@@ -31,7 +31,7 @@ const UserInfo = ({
   }, [userId]);
 
   return (
-    <div className="flex gap-4 cursor-pointer" onClick={onClick}>
+    <div className="flex gap-4 cursor-pointer items-center" onClick={onClick}>
       <img
         className="w-12 h-12 rounded-full object-cover"
         src={user?.photoUrl ?? ImagePlaceholder}
@@ -44,7 +44,7 @@ const UserInfo = ({
           {user?.tg}
         </div>
       </div>
-      {showFollow && <FollowButton followingId={user?.id} />}
+      {showFollow && <FollowButton followingId={user?.id} variant="small" />}
     </div>
   );
 };
