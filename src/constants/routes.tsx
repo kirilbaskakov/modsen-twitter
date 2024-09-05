@@ -30,6 +30,10 @@ export const authRoutes = {
       element: lazy(() => import('@/pages/FeedPage'))
     },
     {
+      path: 'search',
+      element: lazy(() => import('@/pages/SearchPage'))
+    },
+    {
       path: 'profile/:id',
       element: lazy(() => import('@/pages/ProfilePage'))
     },

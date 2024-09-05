@@ -5,13 +5,19 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import searchUsers from '@/api/users/searchUsers';
 import useDebounce from '@/hooks/useDebounce';
 
-const Search = () => {
+const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
   const [users, setUsers] = useState<Array<string>>([]);
   const [search, setSearch] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
   const debouncedSearch = useDebounce(search, 300);
 
+  const onShowMore = () => {
+    if (fullPage) {
+      setIsExpanded(true);
+    }
+  };
   const getUsers = async () => {
-    const users = await searchUsers(debouncedSearch);
+    const users = await searchUsers(debouncedSearch, isExpanded ? 3 : 30);
     setUsers(users);
   };
 
@@ -21,7 +27,7 @@ const Search = () => {
 
   useEffect(() => {
     getUsers();
-  }, [debouncedSearch]);
+  }, [debouncedSearch, isExpanded]);
 
   return (
     <div>
@@ -31,7 +37,7 @@ const Search = () => {
           className="absolute left-4 top-1/2 -translate-y-1/2"
         />
         <input
-          className="bg-gray-100 rounded-3xl py-2.5 px-14 placeholder:text-gray-500 text-lg"
+          className="bg-gray-100 rounded-3xl py-2.5 px-14 placeholder:text-gray-500 text-lg w-full"
           placeholder="Search Users"
           onChange={onChange}
           value={search}
@@ -48,9 +54,11 @@ const Search = () => {
           <p className="text-gray-400">No results found</p>
         )}
 
-        <Link className="mt-2" to="/search">
-          Show more
-        </Link>
+        {!isExpanded && (
+          <Link className="mt-2" to="/search" onClick={onShowMore}>
+            Show more
+          </Link>
+        )}
       </div>
     </div>
   );

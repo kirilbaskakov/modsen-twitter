@@ -2,21 +2,21 @@ import { db } from '@/firebase';
 import { UserType } from '@/types/UserType';
 import { collection, getDocs, limit, query, where } from 'firebase/firestore';
 
-const searchUsers = async (search: string): Promise<Array<string>> => {
+const searchUsers = async (search: string, lim: number): Promise<Array<string>> => {
   const usersRef = collection(db, 'users');
 
   const nameQuery = query(
     usersRef,
     where('name', '>=', search),
     where('name', '<=', search + '\uf8ff'),
-    limit(3)
+    limit(lim)
   );
 
   const tgQuery = query(
     usersRef,
     where('tg', '>=', search),
     where('tg', '<=', search + '\uf8ff'),
-    limit(3)
+    limit(lim)
   );
 
   const nameSnapshot = await getDocs(nameQuery);
@@ -35,7 +35,7 @@ const searchUsers = async (search: string): Promise<Array<string>> => {
 
   const uniqueIds = Array.from(new Set(ids));
 
-  return uniqueIds.slice(0, 3);
+  return uniqueIds.slice(0, lim);
 };
 
 export default searchUsers;
