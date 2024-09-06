@@ -31,12 +31,15 @@ const UserInfo = ({
   }, [userId]);
 
   return (
-    <div className="flex gap-4 cursor-pointer items-center" onClick={onClick}>
+    <div
+      className="flex gap-4 cursor-pointer items-center justify-start"
+      onClick={onClick}
+    >
       <img
         className="w-12 h-12 rounded-full object-cover"
         src={user?.photoUrl ?? ImagePlaceholder}
       />
-      <div className="overflow-hidden">
+      <div className="overflow-hidden w-2/3">
         <div className="overflow-hidden text-nowrap text-ellipsis ">
           {user?.name}
         </div>

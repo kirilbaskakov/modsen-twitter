@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { signOut } from 'firebase/auth';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import Bookmarks from '@/assets/bookmarks.svg';
@@ -16,6 +17,7 @@ import TwitterLogo from '@/assets/twitter-logo.svg';
 import { auth } from '@/firebase';
 import useCurrentUser from '@/hooks/useCurrentUser';
 
+import CreateTweetModal from '../CreateTweetModal/CreateTweetModal';
 import UserInfo from '../UserInfo/UserInfo';
 
 const links = (userId: string) => [
@@ -71,9 +73,18 @@ const links = (userId: string) => [
 const Navbar = () => {
   const currentUser = useCurrentUser();
   const { pathname } = useLocation();
+  const [isTweetModalOpen, setIsTweetModalOpen] = useState(false);
 
   const onLogoutClicked = () => {
     signOut(auth);
+  };
+
+  const onTweetClicked = () => {
+    setIsTweetModalOpen(true);
+  };
+
+  const onTweetModalClose = () => {
+    setIsTweetModalOpen(false);
   };
 
   return (
@@ -95,11 +106,19 @@ const Navbar = () => {
             </Link>
           ))}
       </nav>
-      <button className="mt-2 mb-10">Tweet</button>
+      <button className="mt-2 mb-10" onClick={onTweetClicked}>
+        Tweet
+      </button>
       <UserInfo userId={currentUser?.id} showFollow={false} />
       <button className="mt-5 secondary" onClick={onLogoutClicked}>
         Log out
       </button>
+      {isTweetModalOpen && (
+        <CreateTweetModal
+          isOpen={isTweetModalOpen}
+          onClose={onTweetModalClose}
+        />
+      )}
     </div>
   );
 };

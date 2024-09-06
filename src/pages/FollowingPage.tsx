@@ -6,7 +6,6 @@ import { UserProvider } from '@/context/userContext';
 
 const FollowingPage = () => {
   const { id } = useParams();
-  console.log(id);
 
   return (
     <UserProvider id={id}>

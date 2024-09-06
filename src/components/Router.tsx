@@ -8,8 +8,10 @@ import {
   RouterProvider
 } from 'react-router-dom';
 
-import { authRoutes,nonAuthRoutes } from '@/constants/routes';
+import { authRoutes, nonAuthRoutes } from '@/constants/routes';
 import { auth } from '@/firebase';
+
+import Loader from './Loader/Loader';
 
 const createRouter = ({
   layout,
@@ -49,7 +51,7 @@ const Router = () => {
   });
 
   return (
-    <Suspense>
+    <Suspense fallback={<Loader />}>
       <RouterProvider router={isAuth ? authRouter : nonAuthRouter} />
     </Suspense>
   );

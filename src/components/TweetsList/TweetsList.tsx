@@ -4,7 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { getTweets } from '@/api/tweets';
 import Tweet from '@/components/Tweet/Tweet';
 import useCurrentUser from '@/hooks/useCurrentUser';
+import useUser from '@/hooks/useUser';
 import { TweetType } from '@/types/TweetType';
+
+import Loader from '../Loader/Loader';
 
 const TweetsList = ({
   onlyUserTweets = false
@@ -12,6 +15,7 @@ const TweetsList = ({
   onlyUserTweets?: boolean;
 }) => {
   const currentUser = useCurrentUser();
+  const user = useUser();
   const [tweets, setTweets] = useState<Array<TweetType>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [last, setLast] = useState<QueryDocumentSnapshot | null | undefined>(
@@ -28,15 +32,24 @@ const TweetsList = ({
       currentUser!.id,
       last,
       10,
-      onlyUserTweets
+      onlyUserTweets ? user?.id : undefined
     );
     setLast(newLast);
-    setTweets(tweets => [...tweets, ...data]);
+    if (onlyUserTweets && last && last.data().authorId !== user?.id) {
+      setTweets(data);
+    } else {
+      setTweets(tweets => [...tweets, ...data]);
+    }
     setIsLoading(false);
-  }, [isLoading, currentUser, onlyUserTweets, last]);
+  }, [isLoading, currentUser, onlyUserTweets, user, last]);
 
   useEffect(() => {
-    if (!currentUser) return;
+    setTweets([]);
+    setLast(null);
+  }, [user]);
+
+  useEffect(() => {
+    if (!currentUser || (onlyUserTweets && !user)) return;
     const observer = new IntersectionObserver(entries => {
       const target = entries[0];
       if (target.isIntersecting) {
@@ -51,7 +64,7 @@ const TweetsList = ({
         observer.unobserve(ref.current);
       }
     };
-  }, [currentUser, ref, getData]);
+  }, [currentUser, user, ref, onlyUserTweets, getData]);
 
   return (
     <div className="flex flex-col gap-4 mt-4">
@@ -59,6 +72,7 @@ const TweetsList = ({
         <Tweet key={tweet.id} {...tweet} />
       ))}
       <div ref={ref} className="h-1" />
+      {isLoading && <Loader />}
     </div>
   );
 };

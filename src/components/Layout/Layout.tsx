@@ -12,7 +12,11 @@ const Layout = () => {
       <div className="flex-1">
         <Outlet />
       </div>
-      {pathname !== '/search' && <Search />}
+      {pathname !== '/search' && (
+        <div className="w-96">
+          <Search />
+        </div>
+      )}
     </div>
   );
 };

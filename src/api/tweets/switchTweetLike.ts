@@ -1,7 +1,5 @@
 import {
-  addDoc,
   collection,
-  deleteDoc,
   doc,
   getDocs,
   query,
@@ -23,19 +21,15 @@ const switchTweetLike = async (tweetId: string, userId: string) => {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      // Если лайка нет, добавляем новый
-      const newLikeRef = doc(likesRef); // Создаем новый документ
+      const newLikeRef = doc(likesRef);
       transaction.set(newLikeRef, {
         tweetId: tweetId,
         userId: userId,
         createdAt: new Date()
       });
-      console.log('Лайк добавлен');
     } else {
-      // Если лайк уже существует, снимаем лайк
       querySnapshot.forEach(docSnapshot => {
         transaction.delete(docSnapshot.ref);
-        console.log('Лайк снят');
       });
     }
   });

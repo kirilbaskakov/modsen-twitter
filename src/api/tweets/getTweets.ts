@@ -18,13 +18,13 @@ const getTweets = async (
   userId: string,
   last: QueryDocumentSnapshot | null,
   tweetsLimit: number,
-  onlyUserTweets: boolean
+  authorId: string | undefined
 ): Promise<[Array<TweetType>, QueryDocumentSnapshot]> => {
   const tweetsRef = collection(db, 'tweets');
 
   const constraints: Array<QueryConstraint> = [orderBy('date', 'desc')];
-  if (onlyUserTweets) {
-    constraints.push(where('authorId', '==', userId));
+  if (authorId) {
+    constraints.push(where('authorId', '==', authorId));
   }
   if (last) {
     constraints.push(startAfter(last));

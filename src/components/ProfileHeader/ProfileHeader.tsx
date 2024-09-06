@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
+
 import countTweets from '@/api/tweets/countTweets';
 import Background from '@/assets/background.png';
 import useUser from '@/hooks/useUser';
-import { useEffect, useState } from 'react';
 
 const ProfileHeader = () => {
   const [tweetsCount, setTweetsCount] = useState(0);

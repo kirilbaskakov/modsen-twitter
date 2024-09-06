@@ -60,7 +60,7 @@ const CreateTweetForm = () => {
       />
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <textarea
-          className="w-full text-xl resize-none focus:outline-none h-auto ovef"
+          className="w-full text-xl resize-none focus:outline-none h-auto"
           placeholder="What's happening"
           onInput={onInput}
           {...register('text', validateTweetText)}

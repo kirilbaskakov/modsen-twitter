@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 
 import checkFollow from '@/api/followers/checkFollow';
 import switchFollow from '@/api/followers/switchFollow';
@@ -25,7 +25,8 @@ const FollowButton = ({
     }
   }, [currentUser, followingId]);
 
-  const onClick = () => {
+  const onClick: MouseEventHandler<HTMLButtonElement> = e => {
+    e.stopPropagation();
     setIsFollowed(isFollowed => !isFollowed);
     if (currentUser && followingId) switchFollow(currentUser.id, followingId);
   };
@@ -37,6 +38,7 @@ const FollowButton = ({
         'ml-auto w-32 align-self-center ' +
         cn({ outlined: isFollowed, 'w-24 py-1': variant === 'small' })
       }
+      disabled={currentUser?.id === followingId}
     >
       {isFollowed ? 'Following' : 'Follow'}
     </button>

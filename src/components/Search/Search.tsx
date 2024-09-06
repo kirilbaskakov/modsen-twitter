@@ -1,9 +1,11 @@
-import SearchIcon from '@/assets/search.svg';
-import { Link } from 'react-router-dom';
-import UserInfo from '../UserInfo/UserInfo';
 import { ChangeEvent, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import searchUsers from '@/api/users/searchUsers';
+import SearchIcon from '@/assets/search.svg';
 import useDebounce from '@/hooks/useDebounce';
+
+import UserInfo from '../UserInfo/UserInfo';
 
 const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
   const [users, setUsers] = useState<Array<string>>([]);
@@ -17,7 +19,7 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
     }
   };
   const getUsers = async () => {
-    const users = await searchUsers(debouncedSearch, isExpanded ? 3 : 30);
+    const users = await searchUsers(debouncedSearch, isExpanded ? 30 : 3);
     setUsers(users);
   };
 

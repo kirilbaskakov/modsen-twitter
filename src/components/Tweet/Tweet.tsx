@@ -48,7 +48,7 @@ const Tweet = ({
   };
 
   return (
-    <div className="flex items-start gap-2">
+    <div className="flex items-start gap-2 overflow-hidden">
       <img
         src={user?.photoUrl}
         alt={`${user?.name} profile image`}
@@ -82,7 +82,9 @@ const Tweet = ({
             )}
           </div>
         </div>
-        <p className="mt-1 w-11/12 text-lg">{text}</p>
+        <p className="mt-1 w-11/12 text-lg text-wrap whitespace-pre-line break-words break-all">
+          {text}
+        </p>
         <div className="grid grid-cols-2 gap-4 mt-2">
           {imageUrls?.map(url => <img src={url} />)}
         </div>

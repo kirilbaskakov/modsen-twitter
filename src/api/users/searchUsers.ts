@@ -1,8 +1,12 @@
-import { db } from '@/firebase';
-import { UserType } from '@/types/UserType';
 import { collection, getDocs, limit, query, where } from 'firebase/firestore';
 
-const searchUsers = async (search: string, lim: number): Promise<Array<string>> => {
+import { db } from '@/firebase';
+import { UserType } from '@/types/UserType';
+
+const searchUsers = async (
+  search: string,
+  lim: number
+): Promise<Array<string>> => {
   const usersRef = collection(db, 'users');
 
   const nameQuery = query(
