@@ -6,7 +6,9 @@ import Modal from '../Modal/Modal';
 const CreateTweetModal = (props: ModalProps) => {
   return (
     <Modal {...props}>
-      <CreateTweetForm />
+      <div className="w-[30vw] min-w-80 ">
+        <CreateTweetForm />
+      </div>
     </Modal>
   );
 };

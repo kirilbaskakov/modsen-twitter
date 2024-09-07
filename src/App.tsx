@@ -1,11 +1,14 @@
 import Router from './components/Router';
+import { ConfirmProvider } from './context/confirmContext';
 import { CurrentUserProvider } from './context/currentUserContext';
 
 const App = () => {
   return (
-    <CurrentUserProvider>
-      <Router />
-    </CurrentUserProvider>
+    <ConfirmProvider>
+      <CurrentUserProvider>
+        <Router />
+      </CurrentUserProvider>
+    </ConfirmProvider>
   );
 };
 

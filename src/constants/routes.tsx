@@ -26,6 +26,10 @@ export const authRoutes = {
   redirectTo: '/feed',
   routes: [
     {
+      path: 'tweets/:id',
+      element: lazy(() => import('@/pages/TweetPage'))
+    },
+    {
       path: 'feed',
       element: lazy(() => import('@/pages/FeedPage'))
     },

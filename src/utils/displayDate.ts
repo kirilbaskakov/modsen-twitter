@@ -13,11 +13,13 @@ const displayDate = (date: Date): string => {
     const h = Math.floor(diffMinutes / 60);
     return h + 'h';
   }
-  return date.toLocaleDateString('en-us', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  });
+  return (
+    date.toLocaleDateString('en-us', {
+      month: 'short',
+      day: 'numeric'
+    }) +
+    (date.getFullYear() !== currentDate.getFullYear() ? date.getFullYear() : '')
+  );
 };
 
 export default displayDate;

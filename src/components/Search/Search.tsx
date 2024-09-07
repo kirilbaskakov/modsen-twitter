@@ -15,7 +15,7 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
 
   const onShowMore = () => {
     if (fullPage) {
-      setIsExpanded(true);
+      setIsExpanded(isExpanded => !isExpanded);
     }
   };
   const getUsers = async () => {
@@ -56,11 +56,9 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
           <p className="text-gray-400">No results found</p>
         )}
 
-        {!isExpanded && (
-          <Link className="mt-2" to="/search" onClick={onShowMore}>
-            Show more
-          </Link>
-        )}
+        <Link className="mt-2" to="/search" onClick={onShowMore}>
+          {isExpanded ? 'Show less' : 'Show more'}
+        </Link>
       </div>
     </div>
   );

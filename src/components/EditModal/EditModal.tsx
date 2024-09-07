@@ -50,7 +50,7 @@ const EditModal = ({ isOpen, onClose }: ModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="w-[30vw]">
+      <div className="w-[30vw] min-w-80">
         <h1 className="text-3xl font-semibold text-center">Edit profile</h1>
         <form
           className="flex flex-col mt-4 gap-2"

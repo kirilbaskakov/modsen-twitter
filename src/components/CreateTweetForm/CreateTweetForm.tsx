@@ -60,12 +60,12 @@ const CreateTweetForm = () => {
       />
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <textarea
-          className="w-full text-xl resize-none focus:outline-none h-auto"
+          className="w-full text-xl resize-none focus:outline-none h-auto max-h-96 overflow-y-auto"
           placeholder="What's happening"
           onInput={onInput}
           {...register('text', validateTweetText)}
         ></textarea>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {previews.map((preview, index) => (
             <div className="relative">
               <img src={preview} className="w-full" />
