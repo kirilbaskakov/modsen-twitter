@@ -23,7 +23,7 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 import CreateTweetModal from '../CreateTweetModal/CreateTweetModal';
 import UserInfo from '../UserInfo/UserInfo';
 
-const links = (userId: string) => [
+const links = (userId: string | undefined) => [
   {
     title: 'Home',
     icon: Home,
@@ -97,27 +97,26 @@ const Navbar = () => {
     <div className="w-52 md:w-auto xl:w-52">
       <img src={TwitterLogo} alt="Twitter logo" className="w-10 h-10" />
       <nav className="mt-6 md:flex md:flex-col md:items-center xl:block">
-        {currentUser &&
-          links(currentUser.id).map(({ title, icon, link, iconActive }) => (
-            <Link
-              to={link}
-              className="flex items-center gap-4 py-2 xl:pr-2 rounded-md hover:bg-gray-100 cursor-pointer text-black dark:text-gray-300 dark:hover:bg-gray-800"
+        {links(currentUser?.id).map(({ title, icon, link, iconActive }) => (
+          <Link
+            to={link}
+            className="flex items-center gap-4 py-2 xl:pr-2 rounded-md hover:bg-gray-100 cursor-pointer text-black dark:text-gray-300 dark:hover:bg-gray-800"
+          >
+            <img
+              src={pathname === link ? iconActive : icon}
+              alt={title}
+              className="dark:filter dark:invert aspect-square"
+            />
+            <span
+              className={
+                'text-lg block md:hidden xl:block ' +
+                cn({ 'font-bold': pathname === link })
+              }
             >
-              <img
-                src={pathname === link ? iconActive : icon}
-                alt={title}
-                className="dark:filter dark:invert"
-              />
-              <span
-                className={
-                  'text-lg block md:hidden xl:block ' +
-                  cn({ 'font-bold': pathname === link })
-                }
-              >
-                {title}
-              </span>
-            </Link>
-          ))}
+              {title}
+            </span>
+          </Link>
+        ))}
       </nav>
       <button className="mt-2 mb-10" onClick={onTweetClicked}>
         <span className="md:hidden xl:inline">Tweet</span>

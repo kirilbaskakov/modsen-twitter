@@ -12,7 +12,7 @@ const Layout = () => {
       <div className="md:hidden">
         <Header />
       </div>
-      <div className="flex max-w-screen-2xl mx-auto pt-6 items-start gap-6 px-8">
+      <div className="flex max-w-screen-2xl mx-auto pt-6 items-start gap-6 px-4 md:px-8">
         <div className="hidden md:block">
           <Navbar />
         </div>

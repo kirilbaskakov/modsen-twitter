@@ -32,7 +32,7 @@ const Header = () => {
   }, [pathname]);
 
   return (
-    <header className="pt-3 px-8">
+    <header className="pt-3 px-4">
       <div
         onClick={onClick}
         className="w-10 h-8 flex flex-col justify-between cursor-pointer"

@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -29,16 +30,19 @@ const CreateTweetForm = () => {
   };
 
   const onImageSelected: ChangeEventHandler<HTMLInputElement> = e => {
-    if (!e.target.files) return;
-    const file = e.target.files[0];
-    setImages(images => [...images, file]);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviews(previews => [...previews, reader.result as string]);
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!e.target.files || previews.length + e.target.files.length > 4) return;
+    const files = e.target.files;
+
+    Array.from(files).forEach(file => {
+      setImages(images => [...images, file]);
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviews(previews => [...previews, reader.result as string]);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   };
 
   const onImageDelete = (index: number) => () => {
@@ -84,14 +88,20 @@ const CreateTweetForm = () => {
             className="hidden"
             id="image-input"
             accept="image/png, image/jpeg"
+            multiple
             onChange={onImageSelected}
+            value={''}
+            disabled={previews.length == 4}
           />
           <label htmlFor="image-input">
             <img
               src={ImageIcon}
               alt="Image icon"
               title="Attach image"
-              className="cursor-pointer"
+              className={
+                'cursor-pointer ' +
+                cn({ 'filter grayscale': previews.length == 4 })
+              }
             />
           </label>
           <button className="w-auto px-6" disabled={!!errors.text}>

@@ -33,11 +33,13 @@ const TweetContextMenu = ({
 
   return (
     <div
-      className="relative ml-auto text-2xl font-extrabold cursor-pointer tracking-wide select-none overflow-visible"
+      className="relative  cursor-pointer tracking-wide overflow-visible"
       ref={ref}
       onClick={onMenuClick}
     >
-      ...
+      <span className="text-2xl leading-3 font-extrabold select-none ">
+        ...
+      </span>
       {isActive && (
         <div className="bg-gray-50 dark:bg-gray-900 absolute right-0 top-0 text-sm text-center font-normal shadow-sm shadow-black rounded-md border-2 border-gray-100 dark:border-gray-800 text-nowrap">
           <div className="px-4 py-2" onClick={onCopyClick}>

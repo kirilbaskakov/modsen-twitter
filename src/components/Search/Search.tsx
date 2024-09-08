@@ -5,9 +5,11 @@ import searchUsers from '@/api/users/searchUsers';
 import SearchIcon from '@/assets/search.svg';
 import useDebounce from '@/hooks/useDebounce';
 
+import Loader from '../Loader/Loader';
 import UserInfo from '../UserInfo/UserInfo';
 
 const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState<Array<string>>([]);
   const [search, setSearch] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -19,8 +21,10 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
     }
   };
   const getUsers = async () => {
+    setIsLoading(true);
     const users = await searchUsers(debouncedSearch, isExpanded ? 30 : 3);
     setUsers(users);
+    setIsLoading(false);
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,8 +53,9 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
         <h2 className="text-2xl font-bold">
           {debouncedSearch ? 'Search results' : 'You might like'}
         </h2>
-
-        {users.length ? (
+        {isLoading ? (
+          <Loader />
+        ) : users.length ? (
           users.map(userId => <UserInfo userId={userId} showFollow={true} />)
         ) : (
           <p className="text-gray-400">No results found</p>

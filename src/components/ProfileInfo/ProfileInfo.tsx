@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -41,16 +42,11 @@ const ProfileInfo = () => {
   return (
     <div className="p-4">
       <div className="flex justify-between items-start">
-        <div>
-          <img
-            src={user?.photoUrl ?? ImageIcon}
-            alt="Profile image"
-            className="w-32 h-32 -mt-16 rounded-full object-cover"
-          />
-          <h2 className="text-2xl font-bold">{user?.name}</h2>
-          <div className="text-sm text-gray-500 ">{user?.tg}</div>
-          <div className="mt-4">{user?.status}</div>
-        </div>
+        <img
+          src={user?.photoUrl ?? ImageIcon}
+          alt="Profile image"
+          className="w-32 h-32 -mt-16 rounded-full object-cover"
+        />
         {currentUser?.id === user?.id ? (
           <button className="outlined w-auto px-4" onClick={onEditClicked}>
             Edit profile
@@ -58,6 +54,27 @@ const ProfileInfo = () => {
         ) : (
           <FollowButton followingId={user.id} />
         )}
+      </div>
+      <div>
+        <h2
+          className={
+            'text-2xl font-bold h-[1.25em] text-nowrap text-ellipsis overflow-hidden max-w-72 ' +
+            cn({ loading: !user })
+          }
+          title={user?.name}
+        >
+          {user?.name}
+        </h2>
+        <div
+          className={
+            'text-sm text-gray-500 h-[1.25em] mt-1 ' + cn({ loading: !user })
+          }
+        >
+          {user?.tg}
+        </div>
+        <div className={'mt-4 h-[1.25em] ' + cn({ loading: !user })}>
+          {user?.status}
+        </div>
       </div>
       <div className="flex gap-6 mt-8 text-lg">
         <Link to="following" className="hover:underline text-gray-400">

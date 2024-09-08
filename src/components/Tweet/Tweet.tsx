@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import switchTweetLike from '@/api/tweets/switchTweetLike';
 import getUserById from '@/api/users/getUserById';
+import ImagePlaceholder from '@/assets/image-placeholder.svg';
 import LikeIcon from '@/assets/like.svg';
 import LikeFilledIcon from '@/assets/like-filled.svg';
 import useCurrentUser from '@/hooks/useCurrentUser';
@@ -50,24 +51,31 @@ const Tweet = ({
   return (
     <div className="flex items-start gap-2 overflow-hidden">
       <img
-        src={user?.photoUrl}
+        src={user?.photoUrl ?? ImagePlaceholder}
         alt={`${user?.name} profile image`}
         className="w-12 h-12 rounded-full mt-2 object-cover"
       />
       <div className="w-full">
-        <div className="flex gap-2 items-end">
+        <div className="flex gap-2 items-end flex-wrap relative">
           <Link
-            className="text-xl font-bold text-black dark:text-gray-300"
+            className="text-xl font-bold text-black dark:text-gray-300 max-w-60 overflow-hidden text-ellipsis"
             to={`/profile/${user?.id}`}
+            title={user?.name}
           >
             {user?.name}
           </Link>
-          <Link className="text-gray-500 text-lg" to={`/profile/${user?.id}`}>
+          <Link
+            className="text-gray-500 text-lg max-w-60 overflow-hidden text-ellipsis"
+            to={`/profile/${user?.id}`}
+            title={user?.tg}
+          >
             {user?.tg}
           </Link>
           <p className="text-gray-500 text-lg font-bold">·</p>
           <p className="text-gray-500 text-lg">{displayDate(date)}</p>
-          <TweetContextMenu authorId={authorId} tweetId={id} />
+          <div className="absolute right-0 top-0">
+            <TweetContextMenu authorId={authorId} tweetId={id} />
+          </div>
         </div>
         <p
           className="mt-1 w-11/12 text-lg text-wrap whitespace-pre-line break-words break-all cursor-pointer"
