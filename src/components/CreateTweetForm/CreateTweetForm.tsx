@@ -53,14 +53,14 @@ const CreateTweetForm = () => {
   };
 
   return (
-    <div className="border-y-2 py-3 flex gap-6">
+    <div className="border-y-2 py-3 flex gap-6 dark:border-gray-400">
       <img
         className="w-12 h-12 rounded-full object-cover"
         src={currentUser?.photoUrl ?? ImagePlaceholder}
       />
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <textarea
-          className="w-full text-xl resize-none focus:outline-none h-auto max-h-96 overflow-y-auto"
+          className="w-full text-xl resize-none focus:outline-none h-auto max-h-96 overflow-y-auto bg-transparent"
           placeholder="What's happening"
           onInput={onInput}
           {...register('text', validateTweetText)}

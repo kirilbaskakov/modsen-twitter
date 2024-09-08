@@ -65,7 +65,7 @@ const RegisterNameForm = ({
         Use {authType === 'email' ? 'phone' : 'email'}
       </div>
       <h3 className="text-lg font-bold">Date of birth</h3>
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-gray-500">
         Facilisi sem pulvinar velit nunc, gravida scelerisque amet nibh sit.
         Quis bibendum ante phasellus metus, magna lacinia sed augue. Odio enim
         nascetur leo mauris vel eget. Pretium id ullamcorper blandit viverra

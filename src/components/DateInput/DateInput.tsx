@@ -68,7 +68,9 @@ const DateInput = () => {
           onChange={onMonthChange}
         >
           {monthes.map(month => (
-            <option key={month}>{month}</option>
+            <option key={month} className="dark:bg-black">
+              {month}
+            </option>
           ))}
         </select>
         <label className="label" htmlFor="month-select">
@@ -83,7 +85,9 @@ const DateInput = () => {
           onChange={onDayChange}
         >
           {days.map(day => (
-            <option key={day}>{day}</option>
+            <option key={day} className="dark:bg-black">
+              {day}
+            </option>
           ))}
         </select>
         <label className="label" htmlFor="day-select">
@@ -98,7 +102,9 @@ const DateInput = () => {
           onChange={onYearChange}
         >
           {years.map(year => (
-            <option key={year}>{year}</option>
+            <option key={year} className="dark:bg-black">
+              {year}
+            </option>
           ))}
         </select>
         <label className="label" htmlFor="year-select">

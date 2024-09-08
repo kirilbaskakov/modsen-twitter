@@ -39,13 +39,13 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
           className="absolute left-4 top-1/2 -translate-y-1/2"
         />
         <input
-          className="bg-gray-100 rounded-3xl py-2.5 px-14 placeholder:text-gray-500 text-lg w-full"
+          className="bg-gray-100 rounded-3xl py-2.5 px-14 placeholder:text-gray-500 text-lg w-full dark:bg-gray-900"
           placeholder="Search Users"
           onChange={onChange}
           value={search}
         />
       </div>
-      <div className="mt-8 bg-gray-100 rounded-lg p-4 flex flex-col gap-4">
+      <div className="mt-8 bg-gray-100 rounded-lg p-4 flex flex-col gap-4 dark:bg-gray-900">
         <h2 className="text-2xl font-bold">
           {debouncedSearch ? 'Search results' : 'You might like'}
         </h2>

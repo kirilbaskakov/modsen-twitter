@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import getTweet from '@/api/tweets/getTweet';
+import BackIcon from '@/assets/back.png';
 import Tweet from '@/components/Tweet/Tweet';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import { TweetType } from '@/types/TweetType';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import BackIcon from '@/assets/back.png';
 
 const TweetPage = () => {
   const navigate = useNavigate();

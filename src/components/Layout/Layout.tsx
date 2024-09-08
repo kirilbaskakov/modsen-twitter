@@ -1,18 +1,18 @@
 import { Outlet, useLocation } from 'react-router-dom';
 
+import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 import Search from '../Search/Search';
-import Header from '../Header/Header';
 
 const Layout = () => {
   const { pathname } = useLocation();
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="md:hidden">
         <Header />
       </div>
-      <div className="flex max-w-screen-2xl mx-auto mt-6 items-start gap-6 px-8">
+      <div className="flex max-w-screen-2xl mx-auto pt-6 items-start gap-6 px-8">
         <div className="hidden md:block">
           <Navbar />
         </div>

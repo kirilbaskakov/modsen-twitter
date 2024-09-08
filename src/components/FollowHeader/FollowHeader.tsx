@@ -29,7 +29,7 @@ const FollowHeader = ({ type }: { type: 'followings' | 'followers' }) => {
   return (
     <div className="flex gap-6 items-center">
       <img
-        className="cursor-pointer w-10 h-10"
+        className="cursor-pointer w-10 h-10 dark:invert"
         onClick={onBackClick}
         src={BackIcon}
       />

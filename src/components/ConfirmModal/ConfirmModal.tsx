@@ -1,5 +1,6 @@
-import Modal from '../Modal/Modal';
 import { ModalProps } from '@/types/ModalProps';
+
+import Modal from '../Modal/Modal';
 
 const ConfirmModal = ({
   text,

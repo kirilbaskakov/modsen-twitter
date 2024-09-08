@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import Navbar from '../Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
+
+import Navbar from '../Navbar/Navbar';
 
 const Header = () => {
   const { pathname } = useLocation();

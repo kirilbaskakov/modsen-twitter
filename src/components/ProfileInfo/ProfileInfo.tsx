@@ -61,11 +61,15 @@ const ProfileInfo = () => {
       </div>
       <div className="flex gap-6 mt-8 text-lg">
         <Link to="following" className="hover:underline text-gray-400">
-          <span className="font-bold text-black">{followingCount}</span>{' '}
+          <span className="font-bold text-black dark:text-gray-300">
+            {followingCount}
+          </span>{' '}
           <span className="text-gray-500">Following</span>
         </Link>
         <Link to="followers" className="hover:underline text-gray-400">
-          <span className="font-bold text-black">{followersCount}</span>{' '}
+          <span className="font-bold text-black dark:text-gray-300">
+            {followersCount}
+          </span>{' '}
           <span className="text-gray-500">Followers</span>
         </Link>
       </div>

@@ -30,6 +30,10 @@ html, body {
     scrollbar-gutter: stable;
 }
 
+html.dark {
+    @apply text-gray-300 bg-black
+}
+
 a {
     text-decoration: none;
     color: var(--color-link);
@@ -48,17 +52,17 @@ input.error {
 }
 
 button {
-    @apply rounded-3xl w-full bg-blue-500 py-2 text-white font-bold text-lg cursor-pointer hover:bg-blue-600
+    @apply rounded-3xl w-full bg-blue-500 py-2 text-white dark:text-gray-300 font-bold text-lg cursor-pointer hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700
 }
 
 button.secondary {
-    @apply bg-gray-400 hover:bg-gray-500;
+    @apply bg-gray-400 hover:bg-gray-500 dark:bg-gray-600 dark:hover:bg-gray-700;
 }
 
 button.outlined {
-    @apply bg-transparent text-black border-2 border-gray-200;
+    @apply bg-transparent text-black dark:text-gray-300 border-2 border-gray-200 dark:border-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900;
 }
 
 button:disabled {
-    @apply bg-blue-400
+    @apply bg-blue-400 dark:bg-blue-500
 }

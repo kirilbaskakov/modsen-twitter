@@ -7,7 +7,9 @@ import Bookmarks from '@/assets/bookmarks.svg';
 import Explore from '@/assets/explore.svg';
 import Home from '@/assets/home.svg';
 import HomeFilled from '@/assets/home-filled.svg';
+import ImagePlaceholder from '@/assets/image-placeholder.svg';
 import Lists from '@/assets/lists.svg';
+import Logout from '@/assets/logout.png';
 import Messages from '@/assets/messages.svg';
 import More from '@/assets/more.svg';
 import Notifications from '@/assets/notification.svg';
@@ -15,13 +17,11 @@ import Profile from '@/assets/profile.svg';
 import ProfileFilled from '@/assets/profile-filled.svg';
 import TwitterLogo from '@/assets/twitter-logo.svg';
 import { auth } from '@/firebase';
+import useConfirm from '@/hooks/useConfirm';
 import useCurrentUser from '@/hooks/useCurrentUser';
 
 import CreateTweetModal from '../CreateTweetModal/CreateTweetModal';
 import UserInfo from '../UserInfo/UserInfo';
-import ImagePlaceholder from '@/assets/image-placeholder.svg';
-import Logout from '@/assets/logout.png';
-import useConfirm from '@/hooks/useConfirm';
 
 const links = (userId: string) => [
   {
@@ -101,9 +101,13 @@ const Navbar = () => {
           links(currentUser.id).map(({ title, icon, link, iconActive }) => (
             <Link
               to={link}
-              className="flex items-center gap-4 py-2 xl:pr-2 rounded-md hover:bg-gray-100 cursor-pointer text-black"
+              className="flex items-center gap-4 py-2 xl:pr-2 rounded-md hover:bg-gray-100 cursor-pointer text-black dark:text-gray-300 dark:hover:bg-gray-800"
             >
-              <img src={pathname === link ? iconActive : icon} alt={title} />
+              <img
+                src={pathname === link ? iconActive : icon}
+                alt={title}
+                className="dark:filter dark:invert"
+              />
               <span
                 className={
                   'text-lg block md:hidden xl:block ' +

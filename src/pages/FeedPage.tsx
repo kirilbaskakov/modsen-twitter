@@ -1,4 +1,5 @@
 import CreateTweetForm from '@/components/CreateTweetForm/CreateTweetForm';
+import ThemeButton from '@/components/ThemeButton/ThemeButton';
 import TweetsList from '@/components/TweetsList/TweetsList';
 
 const FeedPage = () => {
@@ -6,6 +7,7 @@ const FeedPage = () => {
     <>
       <div className="flex items-center justify-between py-4">
         <h1 className="text-2xl font-bold">Home</h1>
+        <ThemeButton />
       </div>
       <CreateTweetForm />
       <TweetsList />

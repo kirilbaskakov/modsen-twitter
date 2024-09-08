@@ -1,5 +1,6 @@
+import { createContext, ReactNode, useState } from 'react';
+
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
-import { ReactNode, createContext, useState } from 'react';
 
 export const confirmContext = createContext<{
   showConfirm: (text: string, onConfirm: () => void) => void;

@@ -6,11 +6,12 @@ import switchTweetLike from '@/api/tweets/switchTweetLike';
 import getUserById from '@/api/users/getUserById';
 import LikeIcon from '@/assets/like.svg';
 import LikeFilledIcon from '@/assets/like-filled.svg';
+import useCurrentUser from '@/hooks/useCurrentUser';
 import { TweetType } from '@/types/TweetType';
 import { UserType } from '@/types/UserType';
 import displayDate from '@/utils/displayDate';
+
 import TweetContextMenu from '../TweetContextMenu/TweetContextMenu';
-import useCurrentUser from '@/hooks/useCurrentUser';
 
 const Tweet = ({
   id,
@@ -56,7 +57,7 @@ const Tweet = ({
       <div className="w-full">
         <div className="flex gap-2 items-end">
           <Link
-            className="text-xl font-bold text-black"
+            className="text-xl font-bold text-black dark:text-gray-300"
             to={`/profile/${user?.id}`}
           >
             {user?.name}
@@ -78,7 +79,7 @@ const Tweet = ({
           {imageUrls?.map(url => <img src={url} />)}
         </div>
         <div
-          className="flex gap-2 mt-3 cursor-pointer max-w-min"
+          className="flex gap-2 mt-3 cursor-pointer max-w-min "
           onClick={onLikeClick}
         >
           <img src={liked ? LikeFilledIcon : LikeIcon} alt="like" />

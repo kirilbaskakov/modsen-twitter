@@ -39,7 +39,7 @@ const TweetContextMenu = ({
     >
       ...
       {isActive && (
-        <div className="bg-gray-50 absolute right-0 top-0 text-sm text-center font-normal shadow-sm shadow-black rounded-md border-2 border-gray-100 text-nowrap">
+        <div className="bg-gray-50 dark:bg-gray-900 absolute right-0 top-0 text-sm text-center font-normal shadow-sm shadow-black rounded-md border-2 border-gray-100 dark:border-gray-800 text-nowrap">
           <div className="px-4 py-2" onClick={onCopyClick}>
             Copy link
           </div>
