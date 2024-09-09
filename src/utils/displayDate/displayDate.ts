@@ -18,7 +18,9 @@ const displayDate = (date: Date): string => {
       month: 'short',
       day: 'numeric'
     }) +
-    (date.getFullYear() !== currentDate.getFullYear() ? date.getFullYear() : '')
+    (date.getFullYear() !== currentDate.getFullYear()
+      ? ', ' + date.getFullYear()
+      : '')
   );
 };
 

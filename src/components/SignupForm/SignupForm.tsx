@@ -2,6 +2,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { createUser } from '@/api/users';
 import BackTwitter from '@/assets/back-twitter.png';
 import GoogleLogo from '@/assets/google-icon.svg';
 import TwitterLogo from '@/assets/twitter-logo.svg';
@@ -10,9 +11,19 @@ import { auth } from '@/firebase';
 const SignupForm = () => {
   const navigate = useNavigate();
 
-  const onGoogleClicked = () => {
+  const onGoogleClicked = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+    const { user } = await signInWithPopup(auth, provider);
+    if (user.metadata.creationTime === user.metadata.lastSignInTime) {
+      await createUser({
+        gender: 'Unknown',
+        name: user.displayName ?? '',
+        status: '',
+        tg: '',
+        uid: user.uid,
+        birthDate: ''
+      });
+    }
   };
 
   const onSignupClicked = () => {

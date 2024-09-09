@@ -7,7 +7,7 @@ import createUser from '@/api/users/createUser';
 import TwitterLogo from '@/assets/twitter-logo.svg';
 import { auth } from '@/firebase';
 import useAlert from '@/hooks/useAlert';
-import phoneToEmail from '@/utils/phoneToEmail';
+import phoneToEmail from '@/utils/phoneToEmail/phoneToEmail';
 
 import errorsMessages from '../../constants/errorsMessages';
 import RegisterNameForm, {

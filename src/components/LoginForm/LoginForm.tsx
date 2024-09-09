@@ -6,7 +6,7 @@ import TwitterLogo from '@/assets/twitter-logo.svg';
 import errorsMessages from '@/constants/errorsMessages';
 import { auth } from '@/firebase';
 import useAlert from '@/hooks/useAlert';
-import phoneToEmail from '@/utils/phoneToEmail';
+import phoneToEmail from '@/utils/phoneToEmail/phoneToEmail';
 
 import LabeledInput from '../LabeledInput/LabeledInput';
 

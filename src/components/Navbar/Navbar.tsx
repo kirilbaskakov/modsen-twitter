@@ -71,7 +71,11 @@ const Navbar = () => {
         src={currentUser?.photoUrl ?? ImagePlaceholder}
         title={currentUser?.name}
       />
-      <button className="mt-5 secondary" onClick={onLogoutClicked}>
+      <button
+        className="mt-5 secondary"
+        data-testid="logout"
+        onClick={onLogoutClicked}
+      >
         <span className="md:hidden xl:inline">Log out</span>
         <img
           className="hidden md:block xl:hidden w-8 h-8 mx-auto"
