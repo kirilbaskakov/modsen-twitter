@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
 import ImagePlaceholder from '@/assets/image-placeholder.svg';
 
@@ -10,7 +10,10 @@ interface ImagePickerProps {
 const ImagePicker = ({ defaultImage, onChange }: ImagePickerProps) => {
   const [preview, setPreview] = useState('');
 
-  const handleImageChange = e => {
+  const handleImageChange: ChangeEventHandler<HTMLInputElement> = e => {
+    if (!e.target.files) {
+      return;
+    }
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
