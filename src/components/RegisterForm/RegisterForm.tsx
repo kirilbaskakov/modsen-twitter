@@ -6,8 +6,10 @@ import { SubmitHandler } from 'react-hook-form';
 import createUser from '@/api/users/createUser';
 import TwitterLogo from '@/assets/twitter-logo.svg';
 import { auth } from '@/firebase';
+import useAlert from '@/hooks/useAlert';
+import phoneToEmail from '@/utils/phoneToEmail';
 
-import Alert from '../Alert/Alert';
+import errorsMessages from '../../constants/errorsMessages';
 import RegisterNameForm, {
   NameFormInputs
 } from '../RegisterNameForm/RegisterNameForm';
@@ -18,7 +20,7 @@ import RegisterPasswordForm, {
 const RegisterForm = () => {
   const [nameData, setNameData] = useState<NameFormInputs | null>(null);
   const [step, setStep] = useState(0);
-  const [error, setError] = useState<string | null>(null);
+  const { showAlert } = useAlert();
 
   const onFirstSubmit: SubmitHandler<NameFormInputs> = data => {
     setStep(1);
@@ -29,15 +31,20 @@ const RegisterForm = () => {
     if (!nameData) {
       return;
     }
+    const mail =
+      nameData.email ||
+      (nameData.phoneNumber && phoneToEmail(nameData.phoneNumber));
+    if (!mail) {
+      return;
+    }
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
-        nameData!.email!,
+        mail,
         data.password
       );
       createUser({
         name: nameData.name,
-        mail: nameData.email,
         uid: user.uid,
         gender: 'Unknown',
         tg: '',
@@ -46,12 +53,11 @@ const RegisterForm = () => {
       });
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
-        setError(error.code);
+        showAlert(errorsMessages[error.code] ?? 'Some error occured', 'error');
       }
     }
   };
 
-  const onAlertClose = () => setError(null);
   return (
     <div className="mx-auto mt-16 w-1/3 min-w-96">
       <img src={TwitterLogo} className="mx-auto" alt="Twitter logo" />
@@ -61,7 +67,6 @@ const RegisterForm = () => {
       ) : (
         <RegisterPasswordForm onSubmit={onSecondSubmit} />
       )}
-      {error && <Alert text={error} type="error" onClose={onAlertClose} />}
     </div>
   );
 };

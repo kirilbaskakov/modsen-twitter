@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback,useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import searchUsers from '@/api/users/searchUsers';
@@ -20,12 +20,12 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
       setIsExpanded(isExpanded => !isExpanded);
     }
   };
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
     setIsLoading(true);
     const users = await searchUsers(debouncedSearch, isExpanded ? 30 : 3);
     setUsers(users);
     setIsLoading(false);
-  };
+  }, [debouncedSearch, isExpanded]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -33,7 +33,7 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
 
   useEffect(() => {
     getUsers();
-  }, [debouncedSearch, isExpanded]);
+  }, [getUsers]);
 
   return (
     <div>

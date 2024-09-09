@@ -52,3 +52,11 @@ export const validateTweetText = {
     message: 'Message must be shorter than 1500 characters'
   }
 };
+
+export const validatePhoneNumber = {
+  required: 'Phone number is required',
+  pattern: {
+    value: /^\+\d{3} \d{2} \d{3}-\d{2}-\d{2}$/,
+    message: 'Please enter a valid phone number'
+  }
+};

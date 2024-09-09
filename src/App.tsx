@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
+
 import Router from './components/Router';
-import { ConfirmProvider } from './context/confirmContext';
+import { AlertProvider } from './context/alertContext';
 import { CurrentUserProvider } from './context/currentUserContext';
 
 const App = () => {
@@ -14,11 +15,11 @@ const App = () => {
   }, []);
 
   return (
-    <ConfirmProvider>
+    <AlertProvider>
       <CurrentUserProvider>
         <Router />
       </CurrentUserProvider>
-    </ConfirmProvider>
+    </AlertProvider>
   );
 };
 

@@ -42,7 +42,7 @@ const Header = () => {
         <div className="h-1 bg-gray-400" />
       </div>
       <div
-        className={`pt-4 px-4 fixed left-0 top-0 bg-white h-screen z-30 transition-transform duration-200 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`pt-4 px-4 fixed left-0 top-0 bg-white h-screen z-30 transition-transform duration-200 ease-in-out dark:bg-black ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <Navbar />
       </div>

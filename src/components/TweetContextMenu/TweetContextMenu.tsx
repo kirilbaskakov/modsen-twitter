@@ -1,5 +1,5 @@
 import { deleteTweet } from '@/api/tweets';
-import useConfirm from '@/hooks/useConfirm';
+import useAlert from '@/hooks/useAlert';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import useOutsideClick from '@/hooks/useOutsideClick';
 
@@ -10,7 +10,7 @@ const TweetContextMenu = ({
   authorId: string;
   tweetId: string;
 }) => {
-  const { showConfirm } = useConfirm();
+  const { showConfirm } = useAlert();
   const currentUser = useCurrentUser();
   const { isActive, setIsActive, ref } = useOutsideClick(false);
 

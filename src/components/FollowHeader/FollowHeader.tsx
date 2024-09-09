@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback,useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { countFollowers, countFollowing } from '@/api/followers';
@@ -10,17 +10,17 @@ const FollowHeader = ({ type }: { type: 'followings' | 'followers' }) => {
   const [count, setCount] = useState(0);
   const user = useUser();
 
-  const getCount = async () => {
+  const getCount = useCallback(async () => {
     if (!user) return;
     const newCount = await (type == 'followers'
       ? countFollowers(user.id)
       : countFollowing(user.id));
     setCount(newCount);
-  };
+  }, [type, user]);
 
   useEffect(() => {
     getCount();
-  }, [user, type]);
+  }, [getCount]);
 
   const onBackClick = () => {
     navigate(-1);

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { useCallback,useEffect, useState } from 'react';
 
 import countTweets from '@/api/tweets/countTweets';
 import Background from '@/assets/background.png';
@@ -9,14 +9,15 @@ const ProfileHeader = () => {
   const [tweetsCount, setTweetsCount] = useState(0);
   const user = useUser();
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     if (!user) return;
     const count = await countTweets(user.id);
     setTweetsCount(count);
-  };
+  }, [user]);
+
   useEffect(() => {
     getData();
-  }, [user]);
+  }, [getData]);
 
   return (
     <div>

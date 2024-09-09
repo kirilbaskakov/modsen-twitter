@@ -1,4 +1,9 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState} from 'react';
 
 import { getUserById } from '@/api/users';
 import { UserType } from '@/types/UserType';
@@ -14,15 +19,15 @@ export const UserProvider = ({
 }) => {
   const [user, setUser] = useState<UserType | null>(null);
 
-  const getUser = async () => {
+  const getUser = useCallback(async () => {
     if (!id) return;
     const user = await getUserById(id);
     setUser(user);
-  };
+  }, [id]);
 
   useEffect(() => {
     getUser();
-  }, [id]);
+  }, [getUser]);
 
   return <userContext.Provider value={user}>{children}</userContext.Provider>;
 };

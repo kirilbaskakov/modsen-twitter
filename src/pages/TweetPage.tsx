@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import getTweet from '@/api/tweets/getTweet';
@@ -14,18 +14,17 @@ const TweetPage = () => {
   const currentUser = useCurrentUser();
   const [tweet, setTweet] = useState<TweetType | null>(null);
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     if (!id || !currentUser) return;
     const newTweet = await getTweet(id, currentUser.id);
-    console.log(currentUser.id, newTweet);
     if (newTweet) {
       setTweet(newTweet);
     }
-  };
+  }, [currentUser, id]);
 
   useEffect(() => {
     getData();
-  }, [id, currentUser]);
+  }, [getData]);
 
   const onBackClick = () => {
     navigate(-1);

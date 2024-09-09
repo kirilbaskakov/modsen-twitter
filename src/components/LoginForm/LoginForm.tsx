@@ -1,15 +1,17 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import TwitterLogo from '@/assets/twitter-logo.svg';
+import errorsMessages from '@/constants/errorsMessages';
 import { auth } from '@/firebase';
+import useAlert from '@/hooks/useAlert';
+import phoneToEmail from '@/utils/phoneToEmail';
 
-import Alert from '../Alert/Alert';
 import LabeledInput from '../LabeledInput/LabeledInput';
 
 const LoginForm = () => {
-  const [error, setError] = useState(null);
+  const { showAlert } = useAlert();
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,14 +19,15 @@ const LoginForm = () => {
       login: HTMLInputElement;
       password: HTMLInputElement;
     };
-    const login = elements.login.value;
+    let login = elements.login.value;
+    if (!login.includes('@')) {
+      login = phoneToEmail(login);
+    }
     const password = elements.password.value;
     signInWithEmailAndPassword(auth, login, password).catch(err =>
-      setError(err.code)
+      showAlert(errorsMessages[err.code] ?? 'Some error occured', 'error')
     );
   };
-
-  const onAlertClose = () => setError(null);
 
   return (
     <div className="mx-auto w-1/4 mt-12 min-w-96">
@@ -50,7 +53,6 @@ const LoginForm = () => {
       <Link to="/" className="block text-end mt-7">
         Sign up to Twitter
       </Link>
-      {error && <Alert text={error} type="error" onClose={onAlertClose} />}
     </div>
   );
 };

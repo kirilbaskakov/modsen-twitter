@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { useCallback,useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import countFollowers from '@/api/followers/countFollowers';
@@ -18,18 +18,17 @@ const ProfileInfo = () => {
   const user = useUser();
   const currentUser = useCurrentUser();
 
-  const getData = async () => {
-    const followers = await countFollowers(user!.id);
-    const followings = await countFollowing(user!.id);
+  const getData = useCallback(async () => {
+    if (!user) return;
+    const followers = await countFollowers(user.id);
+    const followings = await countFollowing(user.id);
     setFollowersCount(followers);
     setFollowingCount(followings);
-  };
+  }, [user]);
 
   useEffect(() => {
-    if (user) {
-      getData();
-    }
-  }, [user]);
+    getData();
+  }, [getData]);
 
   const onClose = () => setIsEditOpen(false);
 

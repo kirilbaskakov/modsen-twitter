@@ -36,7 +36,7 @@ const getTweet = async (
     where('userId', '==', userId)
   );
   const userLikeSnapshot = await getDocs(userLikeQuery);
-  console.log(userLikeSnapshot.docs);
+
   const likedByCurrentUser = !userLikeSnapshot.empty;
 
   return {

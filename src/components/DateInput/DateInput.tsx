@@ -1,30 +1,18 @@
 import { ChangeEvent, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
+import monthes from '@/constants/monthes';
 import daysInMonth from '@/utils/daysInMonth';
 
-const monthes = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-];
+const DateInput = ({ defaultValue }: { defaultValue?: Date }) => {
+  const { setValue, register } = useFormContext();
+  const [date, setDate] = useState(defaultValue ?? new Date());
 
-const currYear = new Date().getFullYear();
-const years = Array.from(
-  { length: currYear - 1900 + 1 },
-  (_, i) => currYear - i
-);
-
-const DateInput = () => {
-  const [date, setDate] = useState(new Date());
+  const currYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: currYear - 1900 + 1 },
+    (_, i) => currYear - i
+  );
 
   const onMonthChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newDate = new Date(date);
@@ -35,12 +23,14 @@ const DateInput = () => {
     }
     newDate.setMonth(newMonth);
     setDate(newDate);
+    setValue('birthday', newDate);
   };
 
   const onDayChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newDate = new Date(date);
     newDate.setDate(Number(e.target.value));
     setDate(newDate);
+    setValue('birthday', newDate);
   };
 
   const onYearChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -52,6 +42,7 @@ const DateInput = () => {
     }
     newDate.setFullYear(newYear);
     setDate(newDate);
+    setValue('birthday', newDate);
   };
 
   const days = new Array(daysInMonth(date.getMonth(), date.getFullYear()))
@@ -111,6 +102,7 @@ const DateInput = () => {
           Month
         </label>
       </div>
+      <input type="hidden" {...register('birthday')} />
     </div>
   );
 };

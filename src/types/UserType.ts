@@ -3,7 +3,6 @@ export interface UserType {
   photoUrl?: string;
   birthDate: string;
   gender: 'Male' | 'Female' | 'Unknown';
-  mail: string;
   name: string;
   status: string;
   tg: string;

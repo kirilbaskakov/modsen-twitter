@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 
 import checkFollow from '@/api/followers/checkFollow';
 import switchFollow from '@/api/followers/switchFollow';
@@ -15,15 +15,14 @@ const FollowButton = ({
   const currentUser = useCurrentUser();
   const [isFollowed, setIsFollowed] = useState(false);
 
-  const getData = async () => {
-    setIsFollowed(await checkFollow(currentUser!.id, followingId!));
-  };
+  const getData = useCallback(async () => {
+    if (!currentUser) return;
+    setIsFollowed(await checkFollow(currentUser.id, followingId!));
+  }, [currentUser, followingId]);
 
   useEffect(() => {
-    if (currentUser && followingId) {
-      getData();
-    }
-  }, [currentUser, followingId]);
+    getData();
+  }, [getData]);
 
   const onClick: MouseEventHandler<HTMLButtonElement> = e => {
     e.stopPropagation();

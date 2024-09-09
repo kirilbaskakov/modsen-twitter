@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback,useEffect, useState } from 'react';
 
 import { getFollowers, getFollowings } from '@/api/followers';
 import useUser from '@/hooks/useUser';
@@ -9,7 +9,7 @@ const FollowList = ({ type }: { type: 'followings' | 'followers' }) => {
   const user = useUser();
   const [usersIds, setUsersIds] = useState<Array<string>>([]);
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     if (!user) {
       return;
     }
@@ -17,11 +17,11 @@ const FollowList = ({ type }: { type: 'followings' | 'followers' }) => {
       ? getFollowers(user.id)
       : getFollowings(user.id));
     setUsersIds(newUsersIds);
-  };
+  }, [type, user]);
 
   useEffect(() => {
     getData();
-  }, [user, type]);
+  }, [getData]);
 
   return (
     <div className="flex flex-col gap-4 mt-2 border-t-2 pt-2">
