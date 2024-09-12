@@ -5,6 +5,7 @@ import Layout from '@/components/Layout/Layout';
 export const nonAuthRoutes = {
   layout: null,
   redirectTo: '/signup',
+  path: '/',
   routes: [
     {
       path: '/signup',
@@ -24,6 +25,7 @@ export const nonAuthRoutes = {
 export const authRoutes = {
   layout: <Layout />,
   redirectTo: '/feed',
+  path: '/',
   routes: [
     {
       path: 'tweets/:id',
@@ -47,7 +49,7 @@ export const authRoutes = {
     },
     {
       path: 'profile/:id/followers',
-      element: lazy(() => import('@/pages/FollowersPage'))
+      element: lazy(() => import('@/pages/FollowingPage'))
     }
   ]
 };

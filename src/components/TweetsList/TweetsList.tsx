@@ -1,5 +1,6 @@
-import { QueryDocumentSnapshot } from 'firebase/firestore';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { QueryDocumentSnapshot } from 'firebase/firestore';
 
 import { getTweets } from '@/api/tweets';
 import Tweet from '@/components/Tweet/Tweet';
