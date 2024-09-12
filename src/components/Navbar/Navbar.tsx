@@ -1,7 +1,8 @@
-import cn from 'classnames';
-import { signOut } from 'firebase/auth';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
+import cn from 'classnames';
+import { signOut } from 'firebase/auth';
 
 import ImagePlaceholder from '@/assets/image-placeholder.svg';
 import Logout from '@/assets/logout.png';

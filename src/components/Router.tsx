@@ -1,4 +1,3 @@
-import { onAuthStateChanged } from 'firebase/auth';
 import { ElementType, ReactNode, Suspense, useState } from 'react';
 import {
   createBrowserRouter,
@@ -8,16 +7,20 @@ import {
   RouterProvider
 } from 'react-router-dom';
 
+import { onAuthStateChanged } from 'firebase/auth';
+
 import { authRoutes, nonAuthRoutes } from '@/constants/routes';
 import { auth } from '@/firebase';
 
 import Loader from './Loader/Loader';
 
 const createRouter = ({
+  path,
   layout,
   routes,
   redirectTo
 }: {
+  path: string;
   redirectTo: string;
   layout: ReactNode;
   routes: Array<{ path: string; element: ElementType }>;
@@ -25,7 +28,7 @@ const createRouter = ({
   createBrowserRouter(
     createRoutesFromChildren(
       <>
-        <Route path="/" element={layout}>
+        <Route path={path} element={layout}>
           {routes.map(({ path, element: Element }) => (
             <Route path={path} element={<Element />} />
           ))}

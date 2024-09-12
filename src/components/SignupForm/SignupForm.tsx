@@ -1,6 +1,7 @@
+import { Link, useNavigate } from 'react-router-dom';
+
 import { signInWithPopup } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth';
-import { Link, useNavigate } from 'react-router-dom';
 
 import { createUser } from '@/api/users';
 import BackTwitter from '@/assets/back-twitter.png';
@@ -33,9 +34,10 @@ const SignupForm = () => {
   return (
     <div className="flex gap-10 items-center flex-1 overflow-hidden">
       <img
+        fetchPriority="high"
         src={BackTwitter}
         alt="Twitter image"
-        className="hidden lg:block h-full w-1/2"
+        className="hidden lg:block h-full w-1/2 max-w-6xl"
       />
       <div className="mx-auto px-4 lg:mx-0 lg:px-0">
         <img src={TwitterLogo} alt="Twitter logo" />

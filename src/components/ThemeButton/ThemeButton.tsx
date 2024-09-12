@@ -1,17 +1,27 @@
-import cn from 'classnames';
 import { useEffect } from 'react';
 
+import cn from 'classnames';
+
 import useLocalStorage from '@/hooks/useLocalStorage';
+import { ThemeTypes } from '@/types/ThemeTypes';
 
 const ThemeButton = () => {
-  const [theme, setTheme] = useLocalStorage<'light' | 'dark'>('theme', 'light');
+  const [theme, setTheme] = useLocalStorage<ThemeTypes>(
+    'theme',
+    ThemeTypes.LIGHT
+  );
 
   const onClick = () => {
-    setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
+    setTheme(theme =>
+      theme === ThemeTypes.LIGHT ? ThemeTypes.DARK : ThemeTypes.LIGHT
+    );
   };
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.classList.toggle(
+      'dark',
+      theme === ThemeTypes.DARK
+    );
   }, [theme]);
 
   return (
@@ -23,8 +33,8 @@ const ThemeButton = () => {
         className={
           'absolute top-[-2px] w-7 h-7 rounded-full border-2 border-gray-400 transition-transform duration-300 ease-in-out ' +
           cn({
-            'translate-x-[calc(50%+2px)]': theme === 'dark',
-            'translate-x-0]': theme === 'light'
+            'translate-x-[calc(50%+2px)]': theme === ThemeTypes.DARK,
+            'translate-x-0]': theme === ThemeTypes.LIGHT
           })
         }
       />

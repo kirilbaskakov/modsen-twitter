@@ -1,6 +1,7 @@
-import cn from 'classnames';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+
+import cn from 'classnames';
 
 interface AlertProps {
   onClose: () => void;

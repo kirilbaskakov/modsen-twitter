@@ -1,5 +1,6 @@
-import cn from 'classnames';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
+
+import cn from 'classnames';
 
 import checkFollow from '@/api/followers/checkFollow';
 import switchFollow from '@/api/followers/switchFollow';

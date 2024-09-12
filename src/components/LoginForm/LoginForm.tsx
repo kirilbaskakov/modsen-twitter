@@ -1,6 +1,7 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import TwitterLogo from '@/assets/twitter-logo.svg';
 import errorsMessages from '@/constants/errorsMessages';

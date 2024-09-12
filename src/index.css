@@ -31,18 +31,18 @@ html, body {
 }
 
 .loading {
-    background: linear-gradient(90deg, #e0e0e0 20%, #f0f0f0 50%, #e0e0e0 80%);/* Light grey background */
-    border-radius: 8px; /* Rounded corners */
-    animation: shimmer 1.5s infinite; /* Animation for shimmer effect */
-    position: relative; /* Positioning for pseudo-elements */
+    background: linear-gradient(90deg, #e0e0e0 20%, #f0f0f0 50%, #e0e0e0 80%);
+    border-radius: 8px; 
+    animation: shimmer 1.5s infinite; 
+    position: relative; 
 }
 
 @keyframes shimmer {
     0% {
-        background-position: -200px 0; /* Start position of shimmer */
+        background-position: -200px 0;
     }
     100% {
-        background-position: 200px 0; /* End position of shimmer */
+        background-position: 200px 0; 
     }
 }
 

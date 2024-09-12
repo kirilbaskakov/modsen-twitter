@@ -21,11 +21,24 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'simple-import-sort/imports': 'error',
+      // 'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true }
+      ],
+      'simple-import-sort/imports': [
+        'error',
+        {
+          groups: [
+            ['^react'],
+            ['^\\u0000'],
+            ['^node:'],
+            ['^@?\\w'],
+            ['^'],
+            ['^\\.']
+          ]
+        }
       ]
     }
   }

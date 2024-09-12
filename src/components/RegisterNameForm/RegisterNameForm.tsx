@@ -1,8 +1,10 @@
-import cn from 'classnames';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import cn from 'classnames';
+
 import { validateEmail, validateName } from '@/constants/validation';
+import { AuthTypes } from '@/types/AuthTypes';
 
 import DateInput from '../DateInput/DateInput';
 import LabeledInput from '../LabeledInput/LabeledInput';
@@ -28,9 +30,11 @@ const RegisterNameForm = ({
     formState: { errors },
     setError
   } = form;
-  const [authType, setAuthType] = useState<'email' | 'phone'>('email');
+  const [authType, setAuthType] = useState<AuthTypes>(AuthTypes.EMAIL);
   const onAuthTypeClick = () => {
-    setAuthType(authType => (authType == 'email' ? 'phone' : 'email'));
+    setAuthType(authType =>
+      authType == AuthTypes.EMAIL ? AuthTypes.PHONE : AuthTypes.EMAIL
+    );
   };
 
   const sumbitHandler = (data: NameFormInputs) => {
@@ -60,7 +64,7 @@ const RegisterNameForm = ({
         <p className="text-red-500 text-xs font-bold h-3">
           {errors.name?.message}
         </p>
-        {authType == 'phone' ? (
+        {authType == AuthTypes.PHONE ? (
           <PhoneInput />
         ) : (
           <LabeledInput
@@ -78,7 +82,7 @@ const RegisterNameForm = ({
           className="cursor-pointer select-none text-blue-500"
           onClick={onAuthTypeClick}
         >
-          Use {authType === 'email' ? 'phone' : 'email'}
+          Use {AuthTypes.EMAIL ? 'phone' : 'email'}
         </div>
         <h3 className="text-lg font-bold">Date of birth</h3>
         <p className="text-sm text-gray-500">

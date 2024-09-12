@@ -1,15 +1,16 @@
-import { FirebaseError } from 'firebase/app';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
+import { FirebaseError } from 'firebase/app';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+
 import createUser from '@/api/users/createUser';
 import TwitterLogo from '@/assets/twitter-logo.svg';
+import errorsMessages from '@/constants/errorsMessages';
 import { auth } from '@/firebase';
 import useAlert from '@/hooks/useAlert';
 import phoneToEmail from '@/utils/phoneToEmail/phoneToEmail';
 
-import errorsMessages from '../../constants/errorsMessages';
 import RegisterNameForm, {
   NameFormInputs
 } from '../RegisterNameForm/RegisterNameForm';

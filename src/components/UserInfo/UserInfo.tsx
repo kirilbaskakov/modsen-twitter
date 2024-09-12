@@ -1,6 +1,7 @@
-import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import cn from 'classnames';
 
 import getUserById from '@/api/users/getUserById';
 import ImagePlaceholder from '@/assets/image-placeholder.svg';

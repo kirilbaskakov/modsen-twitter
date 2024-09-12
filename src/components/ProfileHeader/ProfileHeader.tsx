@@ -1,5 +1,6 @@
-import cn from 'classnames';
 import { useCallback,useEffect, useState } from 'react';
+
+import cn from 'classnames';
 
 import countTweets from '@/api/tweets/countTweets';
 import Background from '@/assets/background.png';

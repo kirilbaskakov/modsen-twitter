@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback,useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import searchUsers from '@/api/users/searchUsers';
@@ -7,6 +7,7 @@ import useDebounce from '@/hooks/useDebounce';
 
 import Loader from '../Loader/Loader';
 import UserInfo from '../UserInfo/UserInfo';
+import { ITEMS_DEFAULT, ITEMS_EXPANDED } from './constants';
 
 const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +23,10 @@ const Search = ({ fullPage = false }: { fullPage?: boolean }) => {
   };
   const getUsers = useCallback(async () => {
     setIsLoading(true);
-    const users = await searchUsers(debouncedSearch, isExpanded ? 30 : 3);
+    const users = await searchUsers(
+      debouncedSearch,
+      isExpanded ? ITEMS_EXPANDED : ITEMS_DEFAULT
+    );
     setUsers(users);
     setIsLoading(false);
   }, [debouncedSearch, isExpanded]);
